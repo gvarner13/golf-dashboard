@@ -1,3 +1,10 @@
+type matchData = {
+  id: string;
+  name: string;
+  logo: string;
+  competitions: [];
+};
+
 export async function getLeaderboard(): Promise<{}> {
   const res = await fetch(
     "https://site.api.espn.com/apis/site/v2/sports/golf/leaderboard"
@@ -13,7 +20,7 @@ export async function getLeaderboard(): Promise<{}> {
 }
 
 // gets pga golf on thur-sun
-export async function getScoreboard(): Promise<{}> {
+export async function getScoreboard(): Promise<matchData> {
   const res = await fetch(
     "https://site.api.espn.com/apis/site/v2/sports/golf/pga/scoreboard"
   );
