@@ -5,6 +5,13 @@ type matchData = {
   competitions: [];
 };
 
+export type playerData = {
+  id: string;
+  score: string;
+  athlete: object;
+  linescores: [];
+};
+
 export async function getLeaderboard(): Promise<{}> {
   const res = await fetch(
     "https://site.api.espn.com/apis/site/v2/sports/golf/leaderboard"
@@ -46,4 +53,18 @@ export async function getEventPlayers(): Promise<{}> {
   const { leaderboard } = await res.json();
 
   return leaderboard;
+}
+
+export async function getTourSchedule(): Promise<{}> {
+  const res = await fetch(
+    "https://site.api.espn.com/apis/site/v2/sports/golf/pga/tourschedule?region=us&lang=en&season=2025"
+  );
+
+  if (!res.ok) {
+    throw new Error(`Failed to fetch today's board: ${res.statusText}`);
+  }
+
+  const { seasons } = await res.json();
+
+  return seasons[0];
 }

@@ -1,5 +1,5 @@
 import { Link, Outlet, createFileRoute } from "@tanstack/react-router";
-import { getScoreboard } from "../utils/espn";
+import { getScoreboard, playerData } from "../utils/espn";
 
 export const Route = createFileRoute("/golf")({
   loader: async () => getScoreboard(),
@@ -8,7 +8,7 @@ export const Route = createFileRoute("/golf")({
 
 function LeaderBoardComponent() {
   const event = Route.useLoaderData();
-  const players = event.competitions[0].competitors.slice(0, 20);
+  const players: playerData[] = event.competitions[0].competitors.slice(0, 20);
 
   return (
     <div className="p-2 m-auto w-1/2">
