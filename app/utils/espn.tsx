@@ -1,15 +1,20 @@
-type matchData = {
+type MatchData = {
   id: string;
   name: string;
   logo: string;
   competitions: [];
 };
 
-export type playerData = {
+export type PlayerData = {
   id: string;
   score: string;
   athlete: object;
   linescores: [];
+};
+
+export type EventData = {
+  id: string;
+  label: string;
 };
 
 export async function getLeaderboard(): Promise<{}> {
@@ -27,7 +32,7 @@ export async function getLeaderboard(): Promise<{}> {
 }
 
 // gets pga golf on thur-sun
-export async function getScoreboard(): Promise<matchData> {
+export async function getScoreboard(): Promise<MatchData> {
   const res = await fetch(
     "https://site.api.espn.com/apis/site/v2/sports/golf/pga/scoreboard"
   );
@@ -55,7 +60,7 @@ export async function getEventPlayers(): Promise<{}> {
   return leaderboard;
 }
 
-export async function getTourSchedule(): Promise<{}> {
+export async function getTourSchedule(): Promise<[]> {
   const res = await fetch(
     "https://site.api.espn.com/apis/site/v2/sports/golf/pga/tourschedule?region=us&lang=en&season=2025"
   );
@@ -64,7 +69,9 @@ export async function getTourSchedule(): Promise<{}> {
     throw new Error(`Failed to fetch today's board: ${res.statusText}`);
   }
 
-  const { seasons } = await res.json();
+  const { seasons, currentSeason, name } = await res.json();
 
-  return seasons[0];
+  const { events } = seasons.find((season) => season.year === currentSeason);
+
+  return events;
 }

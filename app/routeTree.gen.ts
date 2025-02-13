@@ -12,6 +12,7 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as UsersImport } from './routes/users'
+import { Route as ScheduleImport } from './routes/schedule'
 import { Route as RedirectImport } from './routes/redirect'
 import { Route as PostsImport } from './routes/posts'
 import { Route as GolfImport } from './routes/golf'
@@ -32,6 +33,12 @@ import { Route as LayoutLayout2LayoutAImport } from './routes/_layout/_layout-2/
 const UsersRoute = UsersImport.update({
   id: '/users',
   path: '/users',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const ScheduleRoute = ScheduleImport.update({
+  id: '/schedule',
+  path: '/schedule',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -163,6 +170,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RedirectImport
       parentRoute: typeof rootRoute
     }
+    '/schedule': {
+      id: '/schedule'
+      path: '/schedule'
+      fullPath: '/schedule'
+      preLoaderRoute: typeof ScheduleImport
+      parentRoute: typeof rootRoute
+    }
     '/users': {
       id: '/users'
       path: '/users'
@@ -287,6 +301,7 @@ export interface FileRoutesByFullPath {
   '/golf': typeof GolfRoute
   '/posts': typeof PostsRouteWithChildren
   '/redirect': typeof RedirectRoute
+  '/schedule': typeof ScheduleRoute
   '/users': typeof UsersRouteWithChildren
   '/posts/$postId': typeof PostsPostIdRoute
   '/users/$userId': typeof UsersUserIdRoute
@@ -303,6 +318,7 @@ export interface FileRoutesByTo {
   '/deferred': typeof DeferredRoute
   '/golf': typeof GolfRoute
   '/redirect': typeof RedirectRoute
+  '/schedule': typeof ScheduleRoute
   '/posts/$postId': typeof PostsPostIdRoute
   '/users/$userId': typeof UsersUserIdRoute
   '/posts': typeof PostsIndexRoute
@@ -320,6 +336,7 @@ export interface FileRoutesById {
   '/golf': typeof GolfRoute
   '/posts': typeof PostsRouteWithChildren
   '/redirect': typeof RedirectRoute
+  '/schedule': typeof ScheduleRoute
   '/users': typeof UsersRouteWithChildren
   '/_layout/_layout-2': typeof LayoutLayout2RouteWithChildren
   '/posts/$postId': typeof PostsPostIdRoute
@@ -340,6 +357,7 @@ export interface FileRouteTypes {
     | '/golf'
     | '/posts'
     | '/redirect'
+    | '/schedule'
     | '/users'
     | '/posts/$postId'
     | '/users/$userId'
@@ -355,6 +373,7 @@ export interface FileRouteTypes {
     | '/deferred'
     | '/golf'
     | '/redirect'
+    | '/schedule'
     | '/posts/$postId'
     | '/users/$userId'
     | '/posts'
@@ -370,6 +389,7 @@ export interface FileRouteTypes {
     | '/golf'
     | '/posts'
     | '/redirect'
+    | '/schedule'
     | '/users'
     | '/_layout/_layout-2'
     | '/posts/$postId'
@@ -389,6 +409,7 @@ export interface RootRouteChildren {
   GolfRoute: typeof GolfRoute
   PostsRoute: typeof PostsRouteWithChildren
   RedirectRoute: typeof RedirectRoute
+  ScheduleRoute: typeof ScheduleRoute
   UsersRoute: typeof UsersRouteWithChildren
   PostsPostIdDeepRoute: typeof PostsPostIdDeepRoute
 }
@@ -400,6 +421,7 @@ const rootRouteChildren: RootRouteChildren = {
   GolfRoute: GolfRoute,
   PostsRoute: PostsRouteWithChildren,
   RedirectRoute: RedirectRoute,
+  ScheduleRoute: ScheduleRoute,
   UsersRoute: UsersRouteWithChildren,
   PostsPostIdDeepRoute: PostsPostIdDeepRoute,
 }
@@ -420,6 +442,7 @@ export const routeTree = rootRoute
         "/golf",
         "/posts",
         "/redirect",
+        "/schedule",
         "/users",
         "/posts_/$postId/deep"
       ]
@@ -448,6 +471,9 @@ export const routeTree = rootRoute
     },
     "/redirect": {
       "filePath": "redirect.tsx"
+    },
+    "/schedule": {
+      "filePath": "schedule.tsx"
     },
     "/users": {
       "filePath": "users.tsx",
