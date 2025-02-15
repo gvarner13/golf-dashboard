@@ -1,5 +1,14 @@
 import { Link, Outlet, createFileRoute } from "@tanstack/react-router";
 import { getScoreboard, PlayerData } from "../utils/espn";
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
 export const Route = createFileRoute("/golf")({
   loader: async () => getScoreboard(),
@@ -14,55 +23,45 @@ function LeaderBoardComponent() {
     <div>
       <div className="p-2 m-auto w-1/2">
         <div>
-          <h1>{event.name}</h1>
+          <h1 className="text-3xl p-2">{event.name}</h1>
         </div>
         <div className="relative w-full overflow-auto">
-          <table className="w-full caption-bottom text-sm">
-            <thead>
-              <tr>
-                <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">
-                  Player
-                </th>
-                <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">
-                  Score
-                </th>
-                <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">
-                  R1
-                </th>
-                <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">
-                  R2
-                </th>
-                <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">
-                  R3
-                </th>
-                <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">
-                  R4
-                </th>
-              </tr>
-            </thead>
-            {players.map((player) => {
-              return (
-                <tr key={player.id} className="p-2">
-                  <td className="p-2 align-middle">
-                    <div className="flex">
-                      <div>
-                        <img
-                          src={player.athlete.flag.href}
-                          className="w-6 h-6 rounded-full"
-                        ></img>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Player</TableHead>
+                <TableHead>Score</TableHead>
+                <TableHead>R1</TableHead>
+                <TableHead>R2</TableHead>
+                <TableHead>R3</TableHead>
+                <TableHead>R4</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {players.map((player) => {
+                return (
+                  <TableRow key={player.id}>
+                    <TableCell>
+                      <div className="flex">
+                        <div>
+                          <img
+                            src={player.athlete.flag.href}
+                            className="w-6 h-6"
+                          ></img>
+                        </div>
+                        <div className="ml-1">{player.athlete.displayName}</div>
                       </div>
-                      <div>{player.athlete.displayName}</div>
-                    </div>
-                  </td>
-                  <td>{player.score}</td>
-                  <td>{player.linescores[0].value}</td>
-                  <td>{player.linescores[1].value}</td>
-                  <td>{player.linescores[2].value}</td>
-                  <td>{player.linescores[3].value}</td>
-                </tr>
-              );
-            })}
-          </table>
+                    </TableCell>
+                    <TableCell>{player.score}</TableCell>
+                    <TableCell>{player.linescores[0]?.value || 0}</TableCell>
+                    <TableCell>{player.linescores[1]?.value || 0}</TableCell>
+                    <TableCell>{player.linescores[2]?.value || 0}</TableCell>
+                    <TableCell>{player.linescores[3]?.value || 0}</TableCell>
+                  </TableRow>
+                );
+              })}
+            </TableBody>
+          </Table>
         </div>
       </div>
     </div>
