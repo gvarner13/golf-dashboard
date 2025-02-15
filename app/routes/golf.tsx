@@ -23,7 +23,7 @@ function LeaderBoardComponent() {
     <div>
       <div className="p-2 m-auto w-1/2">
         <div>
-          <h1 className="text-3xl p-2">{event.name}</h1>
+          <h1 className="font-semibold text-2xl">{event.name}</h1>
         </div>
         <div className="relative w-full overflow-auto">
           <Table>

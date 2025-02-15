@@ -8,6 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 
 export const Route = createFileRoute("/schedule")({
   loader: async () => getTourSchedule(),
@@ -22,15 +23,20 @@ function TourEventsComponent() {
       {events.map((event: EventData) => {
         return (
           <Card key={event.id} className="mb-2">
+            <CardHeader>
+              <CardTitle>{event.label}</CardTitle>
+              <CardDescription>{event.locations[0]}</CardDescription>
+            </CardHeader>
             <CardContent>
-              <div className="flex justify-between pt-6">
+              <div className="flex justify-between">
                 <div>
-                  <div>{event.label}</div>
-                  <div>{event.locations[0]}</div>
                   <div>{event.winner?.competitors?.displayName || "N/A"}</div>
                   <div>{event.defendingChampion?.displayName || "N/A"}</div>
                 </div>
                 <div>
+                  <div>
+                    <Badge>{event.isMajor ? "Major" : "Non Major"}</Badge>
+                  </div>
                   <div>{event.detail}</div>
                   <div>{event.purse?.displayValue}</div>
                 </div>
