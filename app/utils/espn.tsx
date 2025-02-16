@@ -46,9 +46,9 @@ export async function getScoreboard(): Promise<MatchData> {
   return events[0];
 }
 
-export async function getEventPlayers(): Promise<{}> {
+export async function getEventPlayers(id: string): Promise<{}> {
   const res = await fetch(
-    "https://site.web.api.espn.com/apis/site/v2/sports/golf/pga/leaderboard/players?region=us&lang=en&event=401703494"
+    `https://site.web.api.espn.com/apis/site/v2/sports/golf/pga/leaderboard/players?region=us&lang=en&event=${id}`
   );
 
   if (!res.ok) {
@@ -74,4 +74,36 @@ export async function getTourSchedule(): Promise<[]> {
   const { events } = seasons.find((season) => season.year === currentSeason);
 
   return events;
+}
+
+export async function getTourDashboard(): Promise<{}> {
+  const res = await fetch(
+    "https://site.api.espn.com/apis/site/v2/sports/golf/pga/tourschedule?region=us&lang=en&season=2025"
+  );
+
+  if (!res.ok) {
+    throw new Error(`Failed to fetch today's board: ${res.statusText}`);
+  }
+
+  const { seasons, currentSeason } = await res.json();
+
+  const { events } = seasons.find((season) => season.year === currentSeason);
+
+  const postEvent = events.findLast((event) => event.status === "post");
+  const currentEvent = events.find((event) => event.status === "in");
+  const nextEvent = events.find((event) => event.status === "pre");
+  let players;
+
+  if (currentEvent) {
+    players = await getEventPlayers(currentEvent.id);
+  } else {
+    players = await getEventPlayers(postEvent.id);
+  }
+
+  return {
+    postEvent,
+    currentEvent,
+    nextEvent,
+    players,
+  };
 }
