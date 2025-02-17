@@ -21,6 +21,7 @@
     "redaxios": "^0.5.1",
     "tailwind-merge": "^2.6.0",
     "tailwindcss-animate": "^1.0.7",
+    "unenv": "^1.10.0",
     "vinxi": "0.5.1"
   },
   "devDependencies": {

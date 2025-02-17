@@ -25,6 +25,25 @@ export const Route = createFileRoute("/")({
   component: Home,
 });
 
+import type { SVGProps } from "react";
+
+export function MaterialSymbolsTrophyOutline(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width={24}
+      height={24}
+      viewBox="0 0 24 24"
+      {...props}
+    >
+      <path
+        fill="currentColor"
+        d="M7 21v-2h4v-3.1q-1.225-.275-2.187-1.037T7.4 12.95q-1.875-.225-3.137-1.637T3 8V7q0-.825.588-1.412T5 5h2V3h10v2h2q.825 0 1.413.588T21 7v1q0 1.9-1.263 3.313T16.6 12.95q-.45 1.15-1.412 1.913T13 15.9V19h4v2zm0-10.2V7H5v1q0 .95.55 1.713T7 10.8m5 3.2q1.25 0 2.125-.875T15 11V5H9v6q0 1.25.875 2.125T12 14m5-3.2q.9-.325 1.45-1.088T19 8V7h-2zm-5-1.3"
+      ></path>
+    </svg>
+  );
+}
+
 const favePlayersList = ["9478", "2230", "3470"];
 
 function Home() {
@@ -43,44 +62,91 @@ function Home() {
           <CardContent>
             <div className="flex justify-between">
               <div>
-                <div>{postEvent.winner?.competitors?.displayName || "N/A"}</div>
-                <div>{postEvent.defendingChampion?.displayName || "N/A"}</div>
+                {postEvent.status === "post" ? (
+                  <div>
+                    <div>Winner</div>
+                    <div className="flex">
+                      <div className="mr-1">
+                        <MaterialSymbolsTrophyOutline />
+                      </div>
+                      <div>
+                        {postEvent.winner?.competitors?.displayName || "N/A"}
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <div>
+                    <div>Defending Champ</div>
+                    <div className="flex">
+                      <div className="mr-1">
+                        <MaterialSymbolsTrophyOutline />
+                      </div>
+                      <div>
+                        {postEvent.defendingChampion?.displayName || "N/A"}
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
               <div>
+                <div>{postEvent.detail}</div>
+                <div>{postEvent.purse?.displayValue}</div>
                 <div>
                   <Badge>{postEvent.isMajor ? "Major" : "Non Major"}</Badge>
                 </div>
-                <div>{postEvent.detail}</div>
-                <div>{postEvent.purse?.displayValue}</div>
               </div>
             </div>
           </CardContent>
         </Card>
-        <Card key={currentEvent.id} className="mb-2">
-          <CardHeader>
-            <CardTitle>{currentEvent.label}</CardTitle>
-            <CardDescription>{currentEvent.locations[0]}</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="flex justify-between">
-              <div>
+        {currentEvent && (
+          <Card key={currentEvent.id} className="mb-2">
+            <CardHeader>
+              <CardTitle>{currentEvent.label}</CardTitle>
+              <CardDescription>{currentEvent.locations[0]}</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="flex justify-between">
                 <div>
-                  {currentEvent.winner?.competitors?.displayName || "N/A"}
+                  {currentEvent.status === "post" ? (
+                    <div>
+                      <div>Winner</div>
+                      <div className="flex">
+                        <div className="mr-1">
+                          <MaterialSymbolsTrophyOutline />
+                        </div>
+                        <div>
+                          {currentEvent.winner?.competitors?.displayName ||
+                            "N/A"}
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <div>
+                      <div>Defending Champ</div>
+                      <div className="flex">
+                        <div className="mr-1">
+                          <MaterialSymbolsTrophyOutline />
+                        </div>
+                        <div>
+                          {currentEvent.defendingChampion?.displayName || "N/A"}
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
                 <div>
-                  {currentEvent.defendingChampion?.displayName || "N/A"}
+                  <div>{currentEvent.detail}</div>
+                  <div>{currentEvent.purse?.displayValue}</div>
+                  <div>
+                    <Badge>
+                      {currentEvent.isMajor ? "Major" : "Non Major"}
+                    </Badge>
+                  </div>
                 </div>
               </div>
-              <div>
-                <div>
-                  <Badge>{currentEvent.isMajor ? "Major" : "Non Major"}</Badge>
-                </div>
-                <div>{currentEvent.detail}</div>
-                <div>{currentEvent.purse?.displayValue}</div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
+        )}
         <Card key={nextEvent.id} className="mb-2">
           <CardHeader>
             <CardTitle>{nextEvent.label}</CardTitle>
@@ -89,15 +155,38 @@ function Home() {
           <CardContent>
             <div className="flex justify-between">
               <div>
-                <div>{nextEvent.winner?.competitors?.displayName || "N/A"}</div>
-                <div>{nextEvent.defendingChampion?.displayName || "N/A"}</div>
+                {nextEvent.status === "post" ? (
+                  <div>
+                    <div>Winner</div>
+                    <div className="flex">
+                      <div className="mr-1">
+                        <MaterialSymbolsTrophyOutline />
+                      </div>
+                      <div>
+                        {nextEvent.winner?.competitors?.displayName || "N/A"}
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <div>
+                    <div>Defending Champ</div>
+                    <div className="flex">
+                      <div className="mr-1">
+                        <MaterialSymbolsTrophyOutline />
+                      </div>
+                      <div>
+                        {nextEvent.defendingChampion?.displayName || "N/A"}
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
               <div>
+                <div>{nextEvent.detail}</div>
+                <div>{nextEvent.purse?.displayValue}</div>
                 <div>
                   <Badge>{nextEvent.isMajor ? "Major" : "Non Major"}</Badge>
                 </div>
-                <div>{nextEvent.detail}</div>
-                <div>{nextEvent.purse?.displayValue}</div>
               </div>
             </div>
           </CardContent>

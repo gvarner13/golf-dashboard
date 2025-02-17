@@ -34,11 +34,11 @@ function TourEventsComponent() {
                   <div>{event.defendingChampion?.displayName || "N/A"}</div>
                 </div>
                 <div>
+                  <div>{event.detail}</div>
+                  <div>{event.purse?.displayValue}</div>
                   <div>
                     <Badge>{event.isMajor ? "Major" : "Non Major"}</Badge>
                   </div>
-                  <div>{event.detail}</div>
-                  <div>{event.purse?.displayValue}</div>
                 </div>
               </div>
             </CardContent>
