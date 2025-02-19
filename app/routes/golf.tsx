@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link, Outlet, createFileRoute } from "@tanstack/react-router";
 import { getScoreboard, PlayerData } from "../utils/espn";
 import {
@@ -38,6 +39,8 @@ function LeaderBoardComponent() {
   const event = Route.useLoaderData();
   const players: PlayerData[] = event.competitions[0].competitors.slice(0, 20);
 
+  const [favePlayers, setFavePlayers] = useState(["9478", "2230", "3470"]);
+
   return (
     <div>
       <div className="p-2 m-auto w-1/2">
@@ -72,7 +75,18 @@ function LeaderBoardComponent() {
                         </div>
                         <div className="ml-1">{player.athlete.displayName}</div>
                         <div>
-                          <LightStarRounded className="fill-gray-400" />
+                          <button
+                            onClick={() =>
+                              setFavePlayers((players) => [
+                                ...players,
+                                player.id,
+                              ])
+                            }
+                          >
+                            <LightStarRounded
+                              className={`${favePlayers.includes(player.id) ? "fill-blue-600" : "fill-gray-400"}`}
+                            />
+                          </button>
                         </div>
                       </div>
                     </TableCell>

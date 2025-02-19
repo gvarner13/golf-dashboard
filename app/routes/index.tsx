@@ -52,7 +52,7 @@ function Home() {
     favePlayersList.includes(player.id)
   );
   return (
-    <div className="flex">
+    <div className="flex min-h-screen">
       <div className="p-2 w-1/3 mx-auto">
         <Card key={postEvent.id} className="mb-2">
           <CardHeader>
