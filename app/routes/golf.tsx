@@ -40,7 +40,7 @@ export const favePlayersAtom = atom(["9478", "2230", "3470"]);
 
 function LeaderBoardComponent() {
   const event = Route.useLoaderData();
-  const players: PlayerData[] = event.competitions[0].competitors.slice(0, 20);
+  const players: PlayerData[] = event.competitions[0].competitors.slice(0, 30);
 
   // const [favePlayers, setFavePlayers] = useState(["9478", "2230", "3470"]);
   const [favePlayers, setFavePlayers] = useAtom(favePlayersAtom);
@@ -48,7 +48,7 @@ function LeaderBoardComponent() {
   return (
     <div>
       <div className="p-2 m-auto w-1/2">
-        <div>
+        <div className="py-4">
           <h1 className="font-semibold text-2xl">{event.name}</h1>
         </div>
         <div className="relative w-full overflow-auto">

@@ -55,7 +55,7 @@ function Home() {
     favePlayersList.includes(player.id)
   );
   return (
-    <div className="flex min-h-screen">
+    <div className="flex min-h-screen pt-4">
       <div className="p-2 w-1/3 mx-auto">
         <Card key={postEvent.id} className="mb-2">
           <CardHeader>
@@ -66,7 +66,7 @@ function Home() {
             <div className="flex justify-between">
               <div>
                 {postEvent.status === "post" ? (
-                  <div>
+                  <div className="space-y-1">
                     <div>Winner</div>
                     <div className="flex">
                       <div className="mr-1">
@@ -78,7 +78,7 @@ function Home() {
                     </div>
                   </div>
                 ) : (
-                  <div>
+                  <div className="space-y-1">
                     <div>Defending Champ</div>
                     <div className="flex">
                       <div className="mr-1">
@@ -91,7 +91,7 @@ function Home() {
                   </div>
                 )}
               </div>
-              <div>
+              <div className="space-y-1">
                 <div>{postEvent.detail}</div>
                 <div>{postEvent.purse?.displayValue}</div>
                 <div>
