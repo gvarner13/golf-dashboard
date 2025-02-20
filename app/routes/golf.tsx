@@ -10,6 +10,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { atom, useAtom } from "jotai";
 
 export const Route = createFileRoute("/golf")({
   loader: async () => getScoreboard(),
@@ -35,11 +36,14 @@ export function LightStarRounded(props: SVGProps<SVGSVGElement>) {
   );
 }
 
+export const favePlayersAtom = atom(["9478", "2230", "3470"]);
+
 function LeaderBoardComponent() {
   const event = Route.useLoaderData();
   const players: PlayerData[] = event.competitions[0].competitors.slice(0, 20);
 
-  const [favePlayers, setFavePlayers] = useState(["9478", "2230", "3470"]);
+  // const [favePlayers, setFavePlayers] = useState(["9478", "2230", "3470"]);
+  const [favePlayers, setFavePlayers] = useAtom(favePlayersAtom);
 
   return (
     <div>
@@ -77,10 +81,13 @@ function LeaderBoardComponent() {
                         <div>
                           <button
                             onClick={() =>
-                              setFavePlayers((players) => [
-                                ...players,
-                                player.id,
-                              ])
+                              setFavePlayers((favePlayers) =>
+                                favePlayers.includes(player.id)
+                                  ? favePlayers.filter(
+                                      (item) => item !== player.id
+                                    )
+                                  : [...favePlayers, player.id]
+                              )
                             }
                           >
                             <LightStarRounded

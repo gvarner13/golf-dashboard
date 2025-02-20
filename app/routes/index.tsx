@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { getTourDashboard, EventData } from "../utils/espn";
+import { useAtomValue } from "jotai";
 
 import {
   Card,
@@ -19,6 +20,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { favePlayersAtom } from "./golf";
 
 export const Route = createFileRoute("/")({
   loader: async () => getTourDashboard(),
@@ -44,10 +46,11 @@ export function MaterialSymbolsTrophyOutline(props: SVGProps<SVGSVGElement>) {
   );
 }
 
-const favePlayersList = ["9478", "2230", "3470"];
+// const favePlayersList = ["9478", "2230", "3470"];
 
 function Home() {
   const { postEvent, currentEvent, nextEvent, players } = Route.useLoaderData();
+  const favePlayersList = useAtomValue(favePlayersAtom);
   const favePlayers = players.filter((player) =>
     favePlayersList.includes(player.id)
   );
