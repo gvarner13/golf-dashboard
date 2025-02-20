@@ -18,7 +18,7 @@ export type EventData = {
   status: string;
 };
 
-interface Event {
+export interface Event {
   id: string;
   status: "pre" | "in" | "post";
   label: string;

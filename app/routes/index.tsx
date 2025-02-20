@@ -10,7 +10,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import {
   Table,
   TableBody,
@@ -21,6 +20,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { favePlayersAtom } from "./golf";
+import { TournementSummaryCard } from "@/components/ui/tournementSummaryCard";
 
 export const Route = createFileRoute("/")({
   loader: async () => getTourDashboard(),
@@ -57,143 +57,9 @@ function Home() {
   return (
     <div className="flex min-h-screen pt-4">
       <div className="p-2 w-1/3 mx-auto">
-        <Card key={postEvent.id} className="mb-2">
-          <CardHeader>
-            <CardTitle>{postEvent.label}</CardTitle>
-            <CardDescription>{postEvent.locations[0]}</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="flex justify-between">
-              <div>
-                {postEvent.status === "post" ? (
-                  <div className="space-y-1">
-                    <div>Winner</div>
-                    <div className="flex">
-                      <div className="mr-1">
-                        <MaterialSymbolsTrophyOutline />
-                      </div>
-                      <div>
-                        {postEvent.winner?.competitors?.displayName || "N/A"}
-                      </div>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="space-y-1">
-                    <div>Defending Champ</div>
-                    <div className="flex">
-                      <div className="mr-1">
-                        <MaterialSymbolsTrophyOutline />
-                      </div>
-                      <div>
-                        {postEvent.defendingChampion?.displayName || "N/A"}
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </div>
-              <div className="space-y-1">
-                <div>{postEvent.detail}</div>
-                <div>{postEvent.purse?.displayValue}</div>
-                <div>
-                  <Badge>{postEvent.isMajor ? "Major" : "Non Major"}</Badge>
-                </div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-        {currentEvent && (
-          <Card key={currentEvent.id} className="mb-2">
-            <CardHeader>
-              <CardTitle>{currentEvent.label}</CardTitle>
-              <CardDescription>{currentEvent.locations[0]}</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="flex justify-between">
-                <div>
-                  {currentEvent.status === "post" ? (
-                    <div>
-                      <div>Winner</div>
-                      <div className="flex">
-                        <div className="mr-1">
-                          <MaterialSymbolsTrophyOutline />
-                        </div>
-                        <div>
-                          {currentEvent.winner?.competitors?.displayName ||
-                            "N/A"}
-                        </div>
-                      </div>
-                    </div>
-                  ) : (
-                    <div>
-                      <div>Defending Champ</div>
-                      <div className="flex">
-                        <div className="mr-1">
-                          <MaterialSymbolsTrophyOutline />
-                        </div>
-                        <div>
-                          {currentEvent.defendingChampion?.displayName || "N/A"}
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                </div>
-                <div>
-                  <div>{currentEvent.detail}</div>
-                  <div>{currentEvent.purse?.displayValue}</div>
-                  <div>
-                    <Badge>
-                      {currentEvent.isMajor ? "Major" : "Non Major"}
-                    </Badge>
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        )}
-        <Card key={nextEvent.id} className="mb-2">
-          <CardHeader>
-            <CardTitle>{nextEvent.label}</CardTitle>
-            <CardDescription>{nextEvent.locations[0]}</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="flex justify-between">
-              <div>
-                {nextEvent.status === "post" ? (
-                  <div>
-                    <div>Winner</div>
-                    <div className="flex">
-                      <div className="mr-1">
-                        <MaterialSymbolsTrophyOutline />
-                      </div>
-                      <div>
-                        {nextEvent.winner?.competitors?.displayName || "N/A"}
-                      </div>
-                    </div>
-                  </div>
-                ) : (
-                  <div>
-                    <div>Defending Champ</div>
-                    <div className="flex">
-                      <div className="mr-1">
-                        <MaterialSymbolsTrophyOutline />
-                      </div>
-                      <div>
-                        {nextEvent.defendingChampion?.displayName || "N/A"}
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </div>
-              <div>
-                <div>{nextEvent.detail}</div>
-                <div>{nextEvent.purse?.displayValue}</div>
-                <div>
-                  <Badge>{nextEvent.isMajor ? "Major" : "Non Major"}</Badge>
-                </div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+        <TournementSummaryCard event={postEvent} />
+        {currentEvent && <TournementSummaryCard event={currentEvent} />}
+        <TournementSummaryCard event={nextEvent} />
       </div>
       <div className="p-2 w-1/2 mx-auto">
         <Card>
