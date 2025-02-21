@@ -21,6 +21,7 @@ import {
 } from "@/components/ui/table";
 import { favePlayersAtom } from "./golf";
 import { TournementSummaryCard } from "@/components/ui/tournementSummaryCard";
+import { Component } from "@/components/donutChart";
 
 export const Route = createFileRoute("/")({
   loader: async () => getTourDashboard(),
@@ -129,6 +130,9 @@ function Home() {
             </Table>
           </CardContent>
         </Card>
+        <div className="w-1/2 pt-2">
+          <Component />
+        </div>
       </div>
     </div>
   );

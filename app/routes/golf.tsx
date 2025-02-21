@@ -11,6 +11,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { atom, useAtom } from "jotai";
+import { atomWithStorage, RESET } from "jotai/utils";
 
 export const Route = createFileRoute("/golf")({
   loader: async () => getScoreboard(),
@@ -36,7 +37,11 @@ export function LightStarRounded(props: SVGProps<SVGSVGElement>) {
   );
 }
 
-export const favePlayersAtom = atom(["9478", "2230", "3470"]);
+export const favePlayersAtom = atomWithStorage("faveplayers", [
+  "9478",
+  "2230",
+  "3470",
+]);
 
 function LeaderBoardComponent() {
   const event = Route.useLoaderData();
@@ -50,6 +55,7 @@ function LeaderBoardComponent() {
       <div className="p-2 m-auto w-1/2">
         <div className="py-4">
           <h1 className="font-semibold text-2xl">{event.name}</h1>
+          <div>{event.competitions[0].status.type.detail}</div>
         </div>
         <div className="relative w-full overflow-auto">
           <Table>
@@ -70,7 +76,7 @@ function LeaderBoardComponent() {
                   <TableRow key={player.id}>
                     <TableCell>{player.order}</TableCell>
                     <TableCell>
-                      <div className="flex">
+                      <div className="flex items-center">
                         <div>
                           <img
                             src={player.athlete.flag.href}

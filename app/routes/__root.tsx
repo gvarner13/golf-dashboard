@@ -96,10 +96,9 @@ function RootDocument({ children }: { children: React.ReactNode }) {
               className: "font-bold",
             }}
           >
-            Golf Leaderboard
+            Leaderboard
           </Link>{" "}
         </div>
-        <hr />
         {children}
         <TanStackRouterDevtools position="bottom-right" />
         <Scripts />
