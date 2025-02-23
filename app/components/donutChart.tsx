@@ -16,23 +16,17 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-const chartData = [
-  { browser: "par", visitors: 275, fill: "var(--color-par)" },
-  { browser: "eagle", visitors: 30, fill: "var(--color-eagle)" },
-  { browser: "birdies", visitors: 287, fill: "var(--color-birdies)" },
-  { browser: "bogeys", visitors: 173, fill: "var(--color-bogeys)" },
-];
 
 const chartConfig = {
-  visitors: {
-    label: "Visitors",
+  total: {
+    label: "Strokes",
   },
-  par: {
-    label: "Par",
+  pars: {
+    label: "Pars",
     color: "hsl(var(--chart-1))",
   },
-  eagle: {
-    label: "Eagle",
+  eagles: {
+    label: "Eagles",
     color: "hsl(var(--chart-2))",
   },
   birdies: {
@@ -43,11 +37,37 @@ const chartConfig = {
     label: "Bogeys",
     color: "hsl(var(--chart-4))",
   },
+  doubles: {
+    label: "Doubles",
+    color: "hsl(var(--chart-5))",
+  },
 } satisfies ChartConfig;
 
-export function Component() {
-  const totalVisitors = React.useMemo(() => {
-    return chartData.reduce((acc, curr) => acc + curr.visitors, 0);
+function calculateTotalStats(leaderboard, statNames) {
+  // First, accumulate totals into an object
+  const totals = leaderboard.reduce((acc, player) => {
+    player.stats.forEach((stat) => {
+      if (statNames.includes(stat.name) && stat.value !== undefined) {
+        acc[stat.name] = (acc[stat.name] || 0) + stat.value;
+      }
+    });
+    return acc;
+  }, {});
+
+  // Convert the totals object into an array of objects with the desired format
+  return Object.entries(totals).map(([statName, total]) => ({
+    statName,
+    total,
+    fill: `var(--color-${statName})`,
+  }));
+}
+
+const statsToSum = ["birdies", "eagles", "pars", "bogeys", "doubles"];
+
+export function Component({ playerData }) {
+  const statData = calculateTotalStats(playerData, statsToSum);
+  const totalStrokes = React.useMemo(() => {
+    return statData.reduce((acc, curr) => acc + curr.total, 0);
   }, []);
 
   return (
@@ -67,9 +87,9 @@ export function Component() {
               content={<ChartTooltipContent hideLabel />}
             />
             <Pie
-              data={chartData}
-              dataKey="visitors"
-              nameKey="browser"
+              data={statData}
+              dataKey="total"
+              nameKey="statName"
               innerRadius={60}
               strokeWidth={5}
             >
@@ -88,7 +108,7 @@ export function Component() {
                           y={viewBox.cy}
                           className="fill-foreground text-3xl font-bold"
                         >
-                          {totalVisitors.toLocaleString()}
+                          {totalStrokes.toLocaleString()}
                         </tspan>
                         <tspan
                           x={viewBox.cx}

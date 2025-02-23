@@ -77,6 +77,7 @@ function Home() {
                   <TableHead>Pos</TableHead>
                   <TableHead>Player</TableHead>
                   <TableHead>Score</TableHead>
+                  <TableHead>Eagles</TableHead>
                   <TableHead>Birdies</TableHead>
                   <TableHead>Pars</TableHead>
                   <TableHead>Bogeys</TableHead>
@@ -107,6 +108,12 @@ function Home() {
                       </TableCell>
                       <TableCell>
                         {
+                          player.stats.find((stat) => stat.name === "eagles")
+                            ?.displayValue
+                        }
+                      </TableCell>
+                      <TableCell>
+                        {
                           player.stats.find((stat) => stat.name === "birdies")
                             ?.displayValue
                         }
@@ -131,7 +138,7 @@ function Home() {
           </CardContent>
         </Card>
         <div className="w-1/2 pt-2">
-          <Component />
+          <Component playerData={players} />
         </div>
       </div>
     </div>
