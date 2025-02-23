@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { getTourDashboard, EventData } from "../utils/espn";
 import { useAtomValue } from "jotai";
+import { assignRealRanks } from "../utils/golf";
 
 import {
   Card,
@@ -52,8 +53,9 @@ export function MaterialSymbolsTrophyOutline(props: SVGProps<SVGSVGElement>) {
 
 function Home() {
   const { postEvent, currentEvent, nextEvent, players } = Route.useLoaderData();
+  const sortedPlayers = assignRealRanks(players);
   const favePlayersList = useAtomValue(favePlayersAtom);
-  const favePlayers = players.filter((player) =>
+  const favePlayers = sortedPlayers.filter((player) =>
     favePlayersList.includes(player.id)
   );
   return (
@@ -88,7 +90,11 @@ function Home() {
                 {favePlayers.map((player) => {
                   return (
                     <TableRow key={player.id}>
-                      <TableCell>{player.rank}</TableCell>
+                      <TableCell>
+                        {player.isTied
+                          ? "T" + player.realRank
+                          : player.realRank}
+                      </TableCell>
                       <TableCell>
                         <div className="flex">
                           <div>
@@ -138,47 +144,49 @@ function Home() {
             </Table>
           </CardContent>
         </Card>
-        <div className="flex justify-between pt-2">
-          {favePlayers.map((player) => {
-            return (
-              <Card key={player.id}>
-                <CardHeader>
-                  <CardTitle>{player.displayName}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="flex justify-between">
-                    <Avatar>
-                      <AvatarImage
-                        src={`https://a.espncdn.com/i/headshots/golf/players/full/${player.id}.png`}
-                        className="object-cover"
-                      />
-                      <AvatarFallback>CN</AvatarFallback>
-                    </Avatar>
-                    <div className="ml-4">
-                      <div className="text-2xl">
-                        {
-                          player.stats.find(
-                            (stat) => stat.name === "driveDistAvg"
-                          )?.displayValue
-                        }{" "}
-                        Yards
-                      </div>
-                      <div>
-                        {
-                          player.stats.find(
-                            (stat) => stat.name === "driveDistAvg"
-                          )?.displayName
-                        }
+        <div className="flex">
+          <div>
+            {favePlayers.map((player) => {
+              return (
+                <Card key={player.id}>
+                  <CardHeader>
+                    <CardTitle>{player.displayName}</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="flex justify-between">
+                      <Avatar>
+                        <AvatarImage
+                          src={`https://a.espncdn.com/i/headshots/golf/players/full/${player.id}.png`}
+                          className="object-cover"
+                        />
+                        <AvatarFallback>CN</AvatarFallback>
+                      </Avatar>
+                      <div className="ml-4">
+                        <div className="text-2xl">
+                          {
+                            player.stats.find(
+                              (stat) => stat.name === "driveDistAvg"
+                            )?.displayValue
+                          }{" "}
+                          Yards
+                        </div>
+                        <div>
+                          {
+                            player.stats.find(
+                              (stat) => stat.name === "driveDistAvg"
+                            )?.displayName
+                          }
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </CardContent>
-              </Card>
-            );
-          })}
-        </div>
-        <div className="w-1/2 pt-2">
-          <Component playerData={players} />
+                  </CardContent>
+                </Card>
+              );
+            })}
+          </div>
+          <div className="w-1/2 pt-2">
+            <Component playerData={players} />
+          </div>
         </div>
       </div>
     </div>

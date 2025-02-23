@@ -93,7 +93,13 @@ export async function getEventPlayers(id: string): Promise<[]> {
 
   const { leaderboard } = await res.json();
 
-  return leaderboard;
+  const players = leaderboard.map((player) => ({
+    ...player,
+    score: player.stats.find((stat) => stat.name === "scoreToPar")
+      ?.displayValue,
+  }));
+
+  return players;
 }
 
 export async function getTourSchedule(): Promise<[]> {

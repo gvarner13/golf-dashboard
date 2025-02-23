@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/table";
 import { atom, useAtom } from "jotai";
 import { atomWithStorage, RESET } from "jotai/utils";
+import { assignRealRanks } from "../utils/golf";
 
 export const Route = createFileRoute("/golf")({
   loader: async () => getScoreboard(),
@@ -45,7 +46,8 @@ export const favePlayersAtom = atomWithStorage("faveplayers", [
 
 function LeaderBoardComponent() {
   const event = Route.useLoaderData();
-  const players: PlayerData[] = event.competitions[0].competitors.slice(0, 30);
+  const players: PlayerData[] = event.competitions[0].competitors;
+  const sortedPlayers = assignRealRanks(players).slice(0, 30);
 
   // const [favePlayers, setFavePlayers] = useState(["9478", "2230", "3470"]);
   const [favePlayers, setFavePlayers] = useAtom(favePlayersAtom);
@@ -71,10 +73,12 @@ function LeaderBoardComponent() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {players.map((player) => {
+              {sortedPlayers.map((player) => {
                 return (
                   <TableRow key={player.id}>
-                    <TableCell>{player.order}</TableCell>
+                    <TableCell>
+                      {player.isTied ? "T" + player.realRank : player.realRank}
+                    </TableCell>
                     <TableCell>
                       <div className="flex items-center">
                         <div>
