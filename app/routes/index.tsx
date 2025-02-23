@@ -19,6 +19,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { favePlayersAtom } from "./golf";
 import { TournementSummaryCard } from "@/components/ui/tournementSummaryCard";
 import { Component } from "@/components/donutChart";
@@ -137,6 +138,45 @@ function Home() {
             </Table>
           </CardContent>
         </Card>
+        <div className="flex justify-between pt-2">
+          {favePlayers.map((player) => {
+            return (
+              <Card key={player.id}>
+                <CardHeader>
+                  <CardTitle>{player.displayName}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex justify-between">
+                    <Avatar>
+                      <AvatarImage
+                        src={`https://a.espncdn.com/i/headshots/golf/players/full/${player.id}.png`}
+                        className="object-cover"
+                      />
+                      <AvatarFallback>CN</AvatarFallback>
+                    </Avatar>
+                    <div className="ml-4">
+                      <div className="text-2xl">
+                        {
+                          player.stats.find(
+                            (stat) => stat.name === "driveDistAvg"
+                          )?.displayValue
+                        }{" "}
+                        Yards
+                      </div>
+                      <div>
+                        {
+                          player.stats.find(
+                            (stat) => stat.name === "driveDistAvg"
+                          )?.displayName
+                        }
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            );
+          })}
+        </div>
         <div className="w-1/2 pt-2">
           <Component playerData={players} />
         </div>
