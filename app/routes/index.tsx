@@ -145,8 +145,8 @@ function Home() {
           </CardContent>
         </Card>
         <div className="flex">
-          <div>
-            {favePlayers.map((player) => {
+          <div className="pt-2 flex flex-wrap gap-2">
+            {favePlayers.slice(0, 4).map((player) => {
               return (
                 <Card key={player.id}>
                   <CardHeader>
@@ -184,7 +184,7 @@ function Home() {
               );
             })}
           </div>
-          <div className="w-1/2 pt-2">
+          <div className="w-1/2 pt-2 mx-auto">
             <Component playerData={players} />
           </div>
         </div>
