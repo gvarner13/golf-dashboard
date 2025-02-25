@@ -24,12 +24,21 @@ function TourEventsComponent() {
       <div className="flex justify-center pb-4 pt-2">
         <Button className="mr-1" onClick={() => setStatus("post")}>
           Played
+          <span className="-me-1 inline-flex h-5 max-h-full items-center rounded border px-1 font-[inherit] text-[0.625rem] font-medium">
+            {events.filter((event) => event.status === "post").length}
+          </span>
         </Button>
         <Button className="mr-1" onClick={() => setStatus("in")}>
           In Progress
+          <span className="-me-1 inline-flex h-5 max-h-full items-center rounded border px-1 font-[inherit] text-[0.625rem] font-medium">
+            {events.filter((event) => event.status === "in").length}
+          </span>
         </Button>
         <Button className="mr-1" onClick={() => setStatus("pre")}>
           Future
+          <span className="-me-1 inline-flex h-5 max-h-full items-center rounded border px-1 font-[inherit] text-[0.625rem] font-medium">
+            {events.filter((event) => event.status === "pre").length}
+          </span>
         </Button>
       </div>
       {filteredEvents.map((event: Event) => {

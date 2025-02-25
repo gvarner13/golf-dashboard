@@ -102,7 +102,7 @@ export async function getEventPlayers(id: string): Promise<[]> {
   return players;
 }
 
-export async function getTourSchedule(): Promise<[]> {
+export async function getTourSchedule(): Promise<Event[]> {
   const res = await fetch(
     "https://site.api.espn.com/apis/site/v2/sports/golf/pga/tourschedule?region=us&lang=en&season=2025"
   );
@@ -111,9 +111,14 @@ export async function getTourSchedule(): Promise<[]> {
     throw new Error(`Failed to fetch today's board: ${res.statusText}`);
   }
 
-  const { seasons, currentSeason, name } = await res.json();
+  const { seasons, currentSeason } = (await res.json()) as TourScheduleResponse;
 
-  const { events } = seasons.find((season) => season.year === currentSeason);
+  const foundSeason = seasons.find((season) => season.year === currentSeason);
+
+  if (!foundSeason) {
+    throw new Error(`Season with year ${currentSeason} not found.`);
+  }
+  const { events } = foundSeason;
 
   return events;
 }
@@ -129,11 +134,12 @@ export async function getTourDashboard(): Promise<TourDashboard> {
 
   const { seasons, currentSeason } = (await res.json()) as TourScheduleResponse;
 
-  const { events } = seasons.find((season) => season.year === currentSeason);
+  const foundSeason = seasons.find((season) => season.year === currentSeason);
 
-  if (!events) {
-    throw new Error(`No Events found for: ${currentSeason}`);
+  if (!foundSeason) {
+    throw new Error(`Season with year ${currentSeason} not found.`);
   }
+  const { events } = foundSeason;
 
   const postEvent = events.findLast((event) => event.status === "post");
   const currentEvent = events.find((event) => event.status === "in");
@@ -142,7 +148,9 @@ export async function getTourDashboard(): Promise<TourDashboard> {
 
   if (currentEvent) {
     players = await getEventPlayers(currentEvent.id);
-  } else {
+  }
+
+  if (!currentEvent && postEvent) {
     players = await getEventPlayers(postEvent.id);
   }
 
