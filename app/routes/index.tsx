@@ -7,14 +7,12 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
@@ -48,8 +46,6 @@ export function MaterialSymbolsTrophyOutline(props: SVGProps<SVGSVGElement>) {
     </svg>
   );
 }
-
-// const favePlayersList = ["9478", "2230", "3470"];
 
 function Home() {
   const { postEvent, currentEvent, nextEvent, players } = Route.useLoaderData();
