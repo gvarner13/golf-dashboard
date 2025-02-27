@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { getTourDashboard, EventData } from "../utils/espn";
 import { useAtomValue } from "jotai";
-import { assignRealRanks } from "../utils/golf";
+import { assignRealRanks, getHighestStats } from "../utils/golf";
 
 import {
   Card,
@@ -54,6 +54,8 @@ function Home() {
   const favePlayers = sortedPlayers.filter((player) =>
     favePlayersList.includes(player.id)
   );
+  const topPlayerStats = getHighestStats(favePlayers);
+  console.log(topPlayerStats["driveDistAvg"]);
   return (
     <div className="flex min-h-screen pt-4">
       <div className="p-2 w-1/3 mx-auto">
@@ -142,6 +144,32 @@ function Home() {
         </Card>
         <div className="flex">
           <div className="pt-2 flex flex-wrap gap-2">
+            <Card key={topPlayerStats["driveDistAvg"].id}>
+              <CardHeader>
+                <CardTitle>
+                  {topPlayerStats["driveDistAvg"].displayName}
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="flex justify-between">
+                  <Avatar>
+                    <AvatarImage
+                      src={`https://a.espncdn.com/i/headshots/golf/players/full/${topPlayerStats["driveDistAvg"].id}.png`}
+                      className="object-cover"
+                    />
+                    <AvatarFallback>CN</AvatarFallback>
+                  </Avatar>
+                  <div className="ml-4">
+                    <div className="text-2xl">
+                      {topPlayerStats["driveDistAvg"].stat?.displayValue} Yards
+                    </div>
+                    <div>
+                      {topPlayerStats["driveDistAvg"].stat?.displayName}
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
             {favePlayers.slice(0, 4).map((player) => {
               return (
                 <Card key={player.id}>

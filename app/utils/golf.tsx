@@ -1,3 +1,21 @@
+interface Stat {
+  name: string;
+  displayName: string;
+  abbreviation: string;
+  value: number;
+  displayValue: string;
+}
+
+interface Player {
+  name: string;
+  stats: Stat[];
+}
+
+interface HighestStat {
+  playerName: string;
+  stat: Stat;
+}
+
 export function assignRealRanks(players) {
   // Clone and sort players: lower score is better; if scores tie, use the order field as a tie-breaker.
   const sortedPlayers = [...players].sort((a, b) => {
@@ -38,4 +56,27 @@ export function assignRealRanks(players) {
   }
 
   return sortedPlayers;
+}
+
+export function getHighestStats(
+  players: Player[]
+): Record<string, HighestStat> {
+  const highestStats: Record<string, HighestStat> = {};
+
+  players.forEach((player) => {
+    player.stats.forEach((stat) => {
+      if (
+        !highestStats[stat.name] ||
+        stat.value > highestStats[stat.name].stat.value
+      ) {
+        highestStats[stat.name] = {
+          id: player.id,
+          displayName: player.displayName,
+          stat: stat,
+        };
+      }
+    });
+  });
+
+  return highestStats;
 }
