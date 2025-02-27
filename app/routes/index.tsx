@@ -55,7 +55,6 @@ function Home() {
     favePlayersList.includes(player.id)
   );
   const topPlayerStats = getHighestStats(favePlayers);
-  console.log(topPlayerStats["driveDistAvg"]);
   return (
     <div className="flex min-h-screen pt-4">
       <div className="p-2 w-1/3 mx-auto">
@@ -144,69 +143,85 @@ function Home() {
         </Card>
         <div className="flex">
           <div className="pt-2 flex flex-wrap gap-2">
-            <Card key={topPlayerStats["driveDistAvg"].id}>
-              <CardHeader>
-                <CardTitle>
-                  {topPlayerStats["driveDistAvg"].displayName}
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="flex justify-between">
-                  <Avatar>
-                    <AvatarImage
-                      src={`https://a.espncdn.com/i/headshots/golf/players/full/${topPlayerStats["driveDistAvg"].id}.png`}
-                      className="object-cover"
-                    />
-                    <AvatarFallback>CN</AvatarFallback>
-                  </Avatar>
-                  <div className="ml-4">
-                    <div className="text-2xl">
-                      {topPlayerStats["driveDistAvg"].stat?.displayValue} Yards
-                    </div>
-                    <div>
-                      {topPlayerStats["driveDistAvg"].stat?.displayName}
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-            {favePlayers.slice(0, 4).map((player) => {
-              return (
-                <Card key={player.id}>
+            {favePlayers.length > 0 && (
+              <>
+                <Card key={topPlayerStats["driveDistAvg"].id}>
                   <CardHeader>
-                    <CardTitle>{player.displayName}</CardTitle>
+                    <CardTitle>
+                      {topPlayerStats["driveDistAvg"].displayName}
+                    </CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="flex justify-between">
                       <Avatar>
                         <AvatarImage
-                          src={`https://a.espncdn.com/i/headshots/golf/players/full/${player.id}.png`}
+                          src={`https://a.espncdn.com/i/headshots/golf/players/full/${topPlayerStats["driveDistAvg"].id}.png`}
                           className="object-cover"
                         />
                         <AvatarFallback>CN</AvatarFallback>
                       </Avatar>
                       <div className="ml-4">
                         <div className="text-2xl">
-                          {
-                            player.stats.find(
-                              (stat) => stat.name === "driveDistAvg"
-                            )?.displayValue
-                          }{" "}
+                          {topPlayerStats["driveDistAvg"].stat?.displayValue}{" "}
                           Yards
                         </div>
                         <div>
-                          {
-                            player.stats.find(
-                              (stat) => stat.name === "driveDistAvg"
-                            )?.displayName
-                          }
+                          {topPlayerStats["driveDistAvg"].stat?.displayName}
                         </div>
                       </div>
                     </div>
                   </CardContent>
                 </Card>
-              );
-            })}
+                <Card key={topPlayerStats["gir"].id}>
+                  <CardHeader>
+                    <CardTitle>{topPlayerStats["gir"].displayName}</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="flex justify-between">
+                      <Avatar>
+                        <AvatarImage
+                          src={`https://a.espncdn.com/i/headshots/golf/players/full/${topPlayerStats["gir"].id}.png`}
+                          className="object-cover"
+                        />
+                        <AvatarFallback>CN</AvatarFallback>
+                      </Avatar>
+                      <div className="ml-4">
+                        <div className="text-2xl">
+                          {topPlayerStats["gir"].stat?.displayValue}%
+                        </div>
+                        <div>GIR</div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+                <Card key={topPlayerStats["sandSaves"].id}>
+                  <CardHeader>
+                    <CardTitle>
+                      {topPlayerStats["sandSaves"].displayName}
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="flex justify-between">
+                      <Avatar>
+                        <AvatarImage
+                          src={`https://a.espncdn.com/i/headshots/golf/players/full/${topPlayerStats["sandSaves"].id}.png`}
+                          className="object-cover"
+                        />
+                        <AvatarFallback>CN</AvatarFallback>
+                      </Avatar>
+                      <div className="ml-4">
+                        <div className="text-2xl">
+                          {topPlayerStats["sandSaves"].stat?.displayValue}%
+                        </div>
+                        <div>
+                          {topPlayerStats["sandSaves"].stat?.displayName}
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </>
+            )}
           </div>
           <div className="w-1/2 pt-2 mx-auto">
             <Component playerData={players} />

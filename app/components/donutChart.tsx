@@ -74,7 +74,7 @@ export function Component({ playerData }) {
     <Card className="flex flex-col">
       <CardHeader className="items-center pb-0">
         <CardTitle>Stroke Breakdown</CardTitle>
-        <CardDescription>Mexico Open at VidantaWorld</CardDescription>
+        <CardDescription>Cognizant Classic in The Palm Beaches</CardDescription>
       </CardHeader>
       <CardContent className="flex-1 pb-0">
         <ChartContainer
