@@ -163,7 +163,7 @@ function Home() {
                       <div className="ml-4">
                         <div className="text-2xl">
                           {topPlayerStats["driveDistAvg"].stat?.displayValue}{" "}
-                          Yards
+                          Yds
                         </div>
                         <div>
                           {topPlayerStats["driveDistAvg"].stat?.displayName}
@@ -220,10 +220,36 @@ function Home() {
                     </div>
                   </CardContent>
                 </Card>
+                <Card key={topPlayerStats["puttsGirAvg"].id}>
+                  <CardHeader>
+                    <CardTitle>
+                      {topPlayerStats["puttsGirAvg"].displayName}
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="flex justify-between">
+                      <Avatar>
+                        <AvatarImage
+                          src={`https://a.espncdn.com/i/headshots/golf/players/full/${topPlayerStats["puttsGirAvg"].id}.png`}
+                          className="object-cover"
+                        />
+                        <AvatarFallback>CN</AvatarFallback>
+                      </Avatar>
+                      <div className="ml-4">
+                        <div className="text-2xl">
+                          {topPlayerStats["puttsGirAvg"].stat?.displayValue}
+                        </div>
+                        <div>
+                          {topPlayerStats["puttsGirAvg"].stat?.displayName}
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
               </>
             )}
           </div>
-          <div className="w-1/2 pt-2 mx-auto">
+          <div className="w-full pt-2 mx-auto">
             <Component playerData={players} />
           </div>
         </div>

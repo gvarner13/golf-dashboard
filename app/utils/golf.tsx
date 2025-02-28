@@ -7,12 +7,14 @@ interface Stat {
 }
 
 interface Player {
-  name: string;
+  id: string;
+  displayName: string;
   stats: Stat[];
 }
 
 interface HighestStat {
-  playerName: string;
+  id: string;
+  displayName: string;
   stat: Stat;
 }
 
