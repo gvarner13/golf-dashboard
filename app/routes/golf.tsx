@@ -47,14 +47,14 @@ export const favePlayersAtom = atomWithStorage("faveplayers", [
 function LeaderBoardComponent() {
   const event = Route.useLoaderData();
   const players: PlayerData[] = event.competitions[0].competitors;
-  const sortedPlayers = assignRealRanks(players).slice(0, 30);
+  const sortedPlayers = assignRealRanks(players).slice(0, 40);
 
   // const [favePlayers, setFavePlayers] = useState(["9478", "2230", "3470"]);
   const [favePlayers, setFavePlayers] = useAtom(favePlayersAtom);
 
   return (
     <div>
-      <div className="p-2 m-auto w-1/2">
+      <div className="p-2 m-auto md:w-1/2">
         <div className="py-4">
           <h1 className="font-semibold text-2xl">{event.name}</h1>
           <div>{event.competitions[0].status.type.detail}</div>

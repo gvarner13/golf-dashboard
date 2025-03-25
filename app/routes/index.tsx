@@ -56,13 +56,13 @@ function Home() {
   );
   const topPlayerStats = getHighestStats(favePlayers);
   return (
-    <div className="flex min-h-screen pt-4">
-      <div className="p-2 w-1/3 mx-auto">
+    <div className="md:flex min-h-screen pt-4">
+      <div className="p-2 md:w-1/3 mx-auto">
         <TournementSummaryCard event={postEvent} />
         {currentEvent && <TournementSummaryCard event={currentEvent} />}
         <TournementSummaryCard event={nextEvent} />
       </div>
-      <div className="p-2 w-1/2 mx-auto">
+      <div className="p-2 md:w-1/2 mx-auto">
         <Card>
           <CardHeader>
             <CardTitle>Favorite Players</CardTitle>
@@ -141,7 +141,7 @@ function Home() {
             </Table>
           </CardContent>
         </Card>
-        <div className="flex">
+        <div className="md:flex">
           <div className="pt-2 flex flex-wrap gap-2">
             {favePlayers.length > 0 && (
               <>

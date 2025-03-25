@@ -20,7 +20,7 @@ function TourEventsComponent() {
   const filteredEvents = filterSchdule(status, events);
 
   return (
-    <div className="p-2 m-auto w-1/3">
+    <div className="p-2 m-auto md:w-1/3">
       <div className="flex justify-center pb-4 pt-2">
         <Button className="mr-1" onClick={() => setStatus("post")}>
           Played
