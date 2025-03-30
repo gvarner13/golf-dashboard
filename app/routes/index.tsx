@@ -58,9 +58,11 @@ function Home() {
   return (
     <div className="md:flex min-h-screen pt-4">
       <div className="p-2 md:w-1/3 mx-auto">
-        <TournementSummaryCard event={postEvent} />
         {currentEvent && <TournementSummaryCard event={currentEvent} />}
-        <TournementSummaryCard event={nextEvent} />
+        <div className="flex justify-between gap-2">
+          <TournementSummaryCard event={postEvent} />
+          <TournementSummaryCard event={nextEvent} />
+        </div>
       </div>
       <div className="p-2 md:w-1/2 mx-auto">
         <Card>
@@ -250,7 +252,7 @@ function Home() {
             )}
           </div>
           <div className="w-full pt-2 mx-auto">
-            <Component playerData={players} />
+            <Component playerData={players} currentEvent={currentEvent} />
           </div>
         </div>
       </div>

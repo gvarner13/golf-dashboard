@@ -47,7 +47,7 @@ export const favePlayersAtom = atomWithStorage("faveplayers", [
 function LeaderBoardComponent() {
   const event = Route.useLoaderData();
   const players: PlayerData[] = event.competitions[0].competitors;
-  const sortedPlayers = assignRealRanks(players).slice(0, 40);
+  const sortedPlayers = assignRealRanks(players);
 
   // const [favePlayers, setFavePlayers] = useState(["9478", "2230", "3470"]);
   const [favePlayers, setFavePlayers] = useAtom(favePlayersAtom);
