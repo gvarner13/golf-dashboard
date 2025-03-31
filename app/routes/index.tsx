@@ -252,7 +252,11 @@ function Home() {
             )}
           </div>
           <div className="w-full pt-2 mx-auto">
-            <Component playerData={players} currentEvent={currentEvent} />
+            <Component
+              playerData={players}
+              currentEvent={currentEvent}
+              postEvent={postEvent}
+            />
           </div>
         </div>
       </div>

@@ -64,7 +64,7 @@ function calculateTotalStats(leaderboard, statNames) {
 
 const statsToSum = ["birdies", "eagles", "pars", "bogeys", "doubles"];
 
-export function Component({ playerData, currentEvent }) {
+export function Component({ playerData, currentEvent, postEvent }) {
   const statData = calculateTotalStats(playerData, statsToSum);
   const totalStrokes = React.useMemo(() => {
     return statData.reduce((acc, curr) => acc + curr.total, 0);
@@ -74,7 +74,9 @@ export function Component({ playerData, currentEvent }) {
     <Card className="flex flex-col">
       <CardHeader className="items-center pb-0">
         <CardTitle>Stroke Breakdown</CardTitle>
-        <CardDescription>{currentEvent.label}</CardDescription>
+        <CardDescription>
+          {currentEvent ? currentEvent.label : postEvent.label}
+        </CardDescription>
       </CardHeader>
       <CardContent className="flex-1 pb-0">
         <ChartContainer
