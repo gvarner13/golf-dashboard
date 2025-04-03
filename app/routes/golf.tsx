@@ -10,6 +10,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { DataTable } from "@/components/playersTable/data-table";
+import { Payment, columns } from "@/components/playersTable/columns";
 import { atom, useAtom } from "jotai";
 import { atomWithStorage, RESET } from "jotai/utils";
 import { assignRealRanks } from "../utils/golf";
@@ -60,6 +62,9 @@ function LeaderBoardComponent() {
         <div className="py-4">
           <h1 className="font-semibold text-2xl">{event.name}</h1>
           <div>{event.competitions[0].status.type.detail}</div>
+        </div>
+        <div>
+          <DataTable columns={columns} data={players} />
         </div>
         <div className="relative w-full overflow-auto">
           <Table>
