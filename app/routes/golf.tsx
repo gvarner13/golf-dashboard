@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, Outlet, createFileRoute } from "@tanstack/react-router";
-import { getScoreboard, PlayerData } from "../utils/espn";
+import { getScoreboard, PlayerData, getLeaderboard } from "../utils/espn";
 import {
   Table,
   TableBody,
@@ -11,13 +11,13 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { DataTable } from "@/components/playersTable/data-table";
-import { Payment, columns } from "@/components/playersTable/columns";
+import { columns } from "@/components/playersTable/columns";
 import { atom, useAtom } from "jotai";
 import { atomWithStorage, RESET } from "jotai/utils";
 import { assignRealRanks } from "../utils/golf";
 
 export const Route = createFileRoute("/golf")({
-  loader: async () => getScoreboard(),
+  loader: async () => getLeaderboard(),
   component: LeaderBoardComponent,
 });
 
@@ -49,9 +49,7 @@ export const favePlayersAtom = atomWithStorage("faveplayers", [
 function LeaderBoardComponent() {
   const event = Route.useLoaderData();
   const players: PlayerData[] = event.competitions[0].competitors;
-  const sortedPlayers = assignRealRanks(players).sort(
-    (a, b) => a.order - b.order
-  );
+  const sortedPlayers = players.sort((a, b) => a.sortOrder - b.sortOrder);
 
   // const [favePlayers, setFavePlayers] = useState(["9478", "2230", "3470"]);
   const [favePlayers, setFavePlayers] = useAtom(favePlayersAtom);
@@ -83,9 +81,7 @@ function LeaderBoardComponent() {
               {sortedPlayers.map((player) => {
                 return (
                   <TableRow key={player.id}>
-                    <TableCell>
-                      {player.isTied ? "T" + player.realRank : player.realRank}
-                    </TableCell>
+                    <TableCell>{player.status.position.displayName}</TableCell>
                     <TableCell>
                       <div className="flex items-center">
                         <div>
@@ -114,7 +110,7 @@ function LeaderBoardComponent() {
                         </div>
                       </div>
                     </TableCell>
-                    <TableCell>{player.score}</TableCell>
+                    <TableCell>{player.score.displayValue}</TableCell>
                     <TableCell>{player.linescores[0]?.value || 0}</TableCell>
                     <TableCell>{player.linescores[1]?.value || 0}</TableCell>
                     <TableCell>{player.linescores[2]?.value || 0}</TableCell>

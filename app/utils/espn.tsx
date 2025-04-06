@@ -5,18 +5,30 @@ type MatchData = {
   competitions: [];
 };
 
-export type PlayerData = {
-  id: string;
-  score: string;
-  athlete: object;
-  linescores: [];
-};
+// export type PlayerData = {
+//   id: string;
+//   score: string;
+//   athlete: object;
+//   linescores: [];
+// };
 
 export type EventData = {
   id: string;
   label: string;
   status: string;
 };
+
+export interface leaderboardEvent {
+  id: string;
+  name: string;
+  competitions: Competitions[];
+}
+
+export interface Competitions {
+  id: string;
+  status: object;
+  competitors: PlayerData[];
+}
 
 export interface Event {
   id: string;
@@ -53,7 +65,115 @@ interface TourDashboard {
   players: Player[];
 }
 
-export async function getLeaderboard(): Promise<{}> {
+export interface PlayerData {
+  id: string;
+  uid: string;
+  movement: number;
+  earnings: number;
+  sortOrder: number;
+  amateur: boolean;
+  featured: boolean;
+  status: Status;
+  score: Score;
+  linescores: Linescore[];
+  statistics: Statistic[];
+  athlete: Athlete;
+}
+
+export interface Status {
+  displayValue: string;
+  period: number;
+  teeTime: string;
+  hole: number;
+  startHole: number;
+  thru: number;
+  playoff: boolean;
+  behindCurrentRound: boolean;
+  detail: string;
+  type: Type;
+  position: Position;
+}
+
+export interface Type {
+  id: string;
+  name: string;
+  state: string;
+  completed: boolean;
+  description: string;
+  detail: string;
+  shortDetail: string;
+}
+
+export interface Position {
+  id: string;
+  displayName: string;
+  isTie: boolean;
+}
+
+export interface Score {
+  value: number;
+  displayValue: string;
+}
+
+export interface Linescore {
+  value?: number;
+  displayValue?: string;
+  period: number;
+  inScore?: number;
+  outScore?: number;
+  currentPosition?: number;
+  teeTime: string;
+  hasStream: boolean;
+  isPlayoff: boolean;
+  startPosition?: number;
+}
+
+export interface Statistic {
+  name: string;
+  value?: number;
+  displayValue: string;
+}
+
+export interface Athlete {
+  id: string;
+  uid: string;
+  guid: string;
+  displayName: string;
+  shortName: string;
+  lastName: string;
+  amateur: boolean;
+  headshot: Headshot;
+  flag: Flag;
+  birthPlace: BirthPlace;
+  links: Link[];
+}
+
+export interface Headshot {
+  href: string;
+}
+
+export interface Flag {
+  href: string;
+  alt: string;
+}
+
+export interface BirthPlace {
+  countryAbbreviation: string;
+  stateAbbreviation: string;
+}
+
+export interface Link {
+  language: string;
+  rel: string[];
+  href: string;
+  text: string;
+  shortText: string;
+  isExternal: boolean;
+  isPremium: boolean;
+  isHidden: boolean;
+}
+
+export async function getLeaderboard(): Promise<leaderboardEvent> {
   const res = await fetch(
     "https://site.api.espn.com/apis/site/v2/sports/golf/leaderboard"
   );
