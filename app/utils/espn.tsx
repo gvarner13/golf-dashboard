@@ -224,7 +224,7 @@ export async function getEventPlayers(id: string): Promise<[]> {
 
 export async function getTourSchedule(): Promise<Event[]> {
   const res = await fetch(
-    "https://site.api.espn.com/apis/site/v2/sports/golf/pga/tourschedule?region=us&lang=en&season=2025"
+    "https://site.api.espn.com/apis/site/v2/sports/golf/pga/tourschedule?region=us&lang=en"
   );
 
   if (!res.ok) {
@@ -245,7 +245,7 @@ export async function getTourSchedule(): Promise<Event[]> {
 
 export async function getTourDashboard(): Promise<TourDashboard> {
   const res = await fetch(
-    "https://site.api.espn.com/apis/site/v2/sports/golf/pga/tourschedule?region=us&lang=en&season=2025"
+    "https://site.api.espn.com/apis/site/v2/sports/golf/pga/tourschedule?region=us&lang=en"
   );
 
   if (!res.ok) {
