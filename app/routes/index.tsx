@@ -49,7 +49,7 @@ export function MaterialSymbolsTrophyOutline(props: SVGProps<SVGSVGElement>) {
 
 function Home() {
   const { postEvent, currentEvent, nextEvent, players } = Route.useLoaderData();
-  const sortedPlayers = assignRealRanks(players);
+  const sortedPlayers = assignRealRanks(players || []);
   const favePlayersList = useAtomValue(favePlayersAtom);
   const favePlayers = sortedPlayers.filter((player) =>
     favePlayersList.includes(player.id)
@@ -86,59 +86,60 @@ function Home() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {favePlayers.map((player) => {
-                  return (
-                    <TableRow key={player.id}>
-                      <TableCell>
-                        {player.isTied
-                          ? "T" + player.realRank
-                          : player.realRank}
-                      </TableCell>
-                      <TableCell>
-                        <div className="flex">
-                          <div>
-                            <img
-                              src={player.countryFlag}
-                              className="w-6 h-6"
-                            ></img>
+                {favePlayers.length > 0 &&
+                  favePlayers.map((player) => {
+                    return (
+                      <TableRow key={player.id}>
+                        <TableCell>
+                          {player.isTied
+                            ? "T" + player.realRank
+                            : player.realRank}
+                        </TableCell>
+                        <TableCell>
+                          <div className="flex">
+                            <div>
+                              <img
+                                src={player.countryFlag}
+                                className="w-6 h-6"
+                              ></img>
+                            </div>
+                            <div className="ml-1">{player.displayName}</div>
                           </div>
-                          <div className="ml-1">{player.displayName}</div>
-                        </div>
-                      </TableCell>
-                      <TableCell>
-                        {
-                          player.stats.find(
-                            (stat) => stat.name === "scoreToPar"
-                          )?.displayValue
-                        }
-                      </TableCell>
-                      <TableCell>
-                        {
-                          player.stats.find((stat) => stat.name === "eagles")
-                            ?.displayValue
-                        }
-                      </TableCell>
-                      <TableCell>
-                        {
-                          player.stats.find((stat) => stat.name === "birdies")
-                            ?.displayValue
-                        }
-                      </TableCell>
-                      <TableCell>
-                        {
-                          player.stats.find((stat) => stat.name === "pars")
-                            ?.displayValue
-                        }
-                      </TableCell>
-                      <TableCell>
-                        {
-                          player.stats.find((stat) => stat.name === "bogeys")
-                            ?.displayValue
-                        }
-                      </TableCell>
-                    </TableRow>
-                  );
-                })}
+                        </TableCell>
+                        <TableCell>
+                          {
+                            player.stats.find(
+                              (stat) => stat.name === "scoreToPar"
+                            )?.displayValue
+                          }
+                        </TableCell>
+                        <TableCell>
+                          {
+                            player.stats.find((stat) => stat.name === "eagles")
+                              ?.displayValue
+                          }
+                        </TableCell>
+                        <TableCell>
+                          {
+                            player.stats.find((stat) => stat.name === "birdies")
+                              ?.displayValue
+                          }
+                        </TableCell>
+                        <TableCell>
+                          {
+                            player.stats.find((stat) => stat.name === "pars")
+                              ?.displayValue
+                          }
+                        </TableCell>
+                        <TableCell>
+                          {
+                            player.stats.find((stat) => stat.name === "bogeys")
+                              ?.displayValue
+                          }
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
               </TableBody>
             </Table>
           </CardContent>

@@ -18,7 +18,10 @@ interface HighestStat {
   stat: Stat;
 }
 
-export function assignRealRanks(players) {
+export function assignRealRanks(players: Player[]) {
+  if (!players || players.length === 0) {
+    return [];
+  }
   // Clone and sort players: lower score is better; if scores tie, use the order field as a tie-breaker.
   const sortedPlayers = [...players].sort((a, b) => {
     if (a.score === b.score) {

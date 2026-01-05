@@ -38,7 +38,7 @@ export const TournementSummaryCard = ({ event }: TcardProps) => {
     <Card key={event.id} className="mb-2">
       <CardHeader>
         <CardTitle>{event.label}</CardTitle>
-        <CardDescription>{event.locations[0]}</CardDescription>
+        <CardDescription>{event?.locations?.[0] || "N/A"}</CardDescription>
       </CardHeader>
       <CardContent>
         <div className="flex justify-between">
