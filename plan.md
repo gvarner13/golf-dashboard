@@ -10,9 +10,9 @@
 - [x] app/components/donutChart.tsx:67:55 — Type `postEvent` prop as `Event | undefined`.
 - [x] app/components/donutChart.tsx:70:49 — Make `statData` strongly typed so `curr.total` is `number` (avoid `Object.entries` returning `unknown`).
 
-- [ ] app/components/ui/tournementSummaryCard.tsx:53:39 — Update `Event.winner` type to match tourschedule API when present: `{ winner?: { competitors?: { displayName?: string } } }`.
-- [ ] app/components/ui/tournementSummaryCard.tsx:63:31 — Add `Event.defendingChampion?: { displayName?: string }` from tourschedule API.
-- [ ] app/components/ui/tournementSummaryCard.tsx:70:25 — Add `Event.purse?: { displayValue?: string }` from tourschedule API.
+- [x] app/components/ui/tournementSummaryCard.tsx:53:39 — Update `Event.winner` type to match tourschedule API when present: `{ winner?: { competitors?: { displayName?: string } } }`.
+- [x] app/components/ui/tournementSummaryCard.tsx:63:31 — Add `Event.defendingChampion?: { displayName?: string }` from tourschedule API.
+- [x] app/components/ui/tournementSummaryCard.tsx:70:25 — Add `Event.purse?: { displayValue?: string }` from tourschedule API.
 
 - [ ] app/routes/golf.tsx:26:46 — Type leaderboard competition status as `{ period: number; type: { detail: string; shortDetail?: string; description?: string; state?: string; name?: string; id?: string } }` from ESPN /golf/leaderboard API.
 

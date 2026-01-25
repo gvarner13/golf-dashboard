@@ -40,9 +40,19 @@ export interface Event {
   };
   label: string;
   locations: string[];
-  winner: object;
+  winner?: {
+    competitors?: {
+      displayName?: string;
+    };
+  };
   detail: string;
   isMajor: boolean;
+  defendingChampion?: {
+    displayName?: string;
+  };
+  purse?: {
+    displayValue?: string;
+  };
 }
 
 interface Season {
