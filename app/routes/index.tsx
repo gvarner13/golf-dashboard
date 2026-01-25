@@ -22,6 +22,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { favePlayersAtom } from "@/utils/favePlayers";
 import { TournementSummaryCard } from "@/components/ui/tournementSummaryCard";
 import { Component } from "@/components/donutChart";
+import { GrandSlamTracker } from "@/components/grandSlamTracker";
 
 export const Route = createFileRoute("/")({
   loader: async () => getTourDashboard(),
@@ -69,6 +70,9 @@ function Home() {
         </div>
       </div>
       <div className="p-2 md:w-1/2 mx-auto">
+        <div className="mb-4">
+          <GrandSlamTracker />
+        </div>
         <Card>
           <CardHeader>
             <CardTitle>Favorite Players</CardTitle>
