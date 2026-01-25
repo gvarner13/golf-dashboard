@@ -79,19 +79,33 @@ interface TourScheduleResponse {
   currentSeason: string;
 }
 
-interface Player {
+export interface LeaderboardPlayerStat {
+  name: string;
+  displayName: string;
+  abbreviation: string;
+  value?: number;
+  displayValue: string;
+}
+
+export interface LeaderboardPlayer {
   id: string;
   displayName: string;
-  countryFlag: string;
-  rank: number;
+  fullName?: string;
+  countryFlag?: string;
+  rank?: number;
+  stats: LeaderboardPlayerStat[];
+  score: number;
+  order: number;
+  realRank?: number;
+  isTied?: boolean;
 }
 
 // Define the return type for this function:
 interface TourDashboard {
-  postEvent: Event;
-  currentEvent: Event;
-  nextEvent: Event;
-  players: Player[];
+  postEvent?: Event;
+  currentEvent?: Event;
+  nextEvent?: Event;
+  players: LeaderboardPlayer[];
 }
 
 export interface PlayerData {
@@ -231,7 +245,9 @@ export async function getScoreboard(): Promise<MatchData> {
   return events[0];
 }
 
-export async function getEventPlayers(id: string): Promise<[]> {
+export async function getEventPlayers(
+  id: string,
+): Promise<LeaderboardPlayer[]> {
   const res = await fetch(
     `https://site.web.api.espn.com/apis/site/v2/sports/golf/pga/leaderboard/players?region=us&lang=en&event=${id}`,
   );
@@ -240,13 +256,20 @@ export async function getEventPlayers(id: string): Promise<[]> {
     throw new Error(`Failed to fetch today's board: ${res.statusText}`);
   }
 
-  const { leaderboard } = await res.json();
+  const { leaderboard } = (await res.json()) as {
+    leaderboard: LeaderboardPlayer[];
+  };
 
-  const players = leaderboard.map((player) => ({
-    ...player,
-    score: player.stats.find((stat) => stat.name === "scoreToPar")
-      ?.displayValue,
-  }));
+  const players = leaderboard.map((player: LeaderboardPlayer) => {
+    const scoreStat = player.stats.find((stat) => stat.name === "scoreToPar");
+    const scoreValue = scoreStat?.value ?? 0;
+    const order = player.rank ?? 0;
+    return {
+      ...player,
+      score: scoreValue,
+      order,
+    };
+  });
 
   return players;
 }
@@ -295,7 +318,7 @@ export async function getTourDashboard(): Promise<TourDashboard> {
   const postEvent = events.findLast((event) => event.status === "post");
   const currentEvent = events.find((event) => event.status === "in");
   const nextEvent = events.find((event) => event.status === "pre");
-  let players;
+  let players: LeaderboardPlayer[] = [];
 
   if (currentEvent) {
     players = await getEventPlayers(currentEvent.id);

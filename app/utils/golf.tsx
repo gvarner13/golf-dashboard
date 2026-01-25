@@ -1,24 +1,12 @@
-interface Stat {
-  name: string;
-  displayName: string;
-  abbreviation: string;
-  value: number;
-  displayValue: string;
-}
-
-interface Player {
-  id: string;
-  displayName: string;
-  stats: Stat[];
-}
+import type { LeaderboardPlayer, LeaderboardPlayerStat } from "./espn";
 
 interface HighestStat {
   id: string;
   displayName: string;
-  stat: Stat;
+  stat: LeaderboardPlayerStat;
 }
 
-export function assignRealRanks(players: Player[]) {
+export function assignRealRanks(players: LeaderboardPlayer[]) {
   if (!players || players.length === 0) {
     return [];
   }
@@ -64,16 +52,18 @@ export function assignRealRanks(players: Player[]) {
 }
 
 export function getHighestStats(
-  players: Player[]
+  players: LeaderboardPlayer[],
 ): Record<string, HighestStat> {
   const highestStats: Record<string, HighestStat> = {};
 
   players.forEach((player) => {
     player.stats.forEach((stat) => {
-      if (
-        !highestStats[stat.name] ||
-        stat.value > highestStats[stat.name].stat.value
-      ) {
+      if (stat.value === undefined) {
+        return;
+      }
+      const currentValue =
+        highestStats[stat.name]?.stat.value ?? Number.NEGATIVE_INFINITY;
+      if (!highestStats[stat.name] || stat.value > currentValue) {
         highestStats[stat.name] = {
           id: player.id,
           displayName: player.displayName,

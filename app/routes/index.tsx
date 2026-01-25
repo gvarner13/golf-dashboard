@@ -54,6 +54,7 @@ function Home() {
   const favePlayers = sortedPlayers.filter((player) =>
     favePlayersList.includes(player.id),
   );
+  const eventLabel = currentEvent?.label ?? postEvent?.label ?? "N/A";
 
   const topPlayerStats = getHighestStats(favePlayers);
   return (
@@ -62,8 +63,8 @@ function Home() {
         <div className="flex flex-col gap-2">
           {currentEvent && <TournementSummaryCard event={currentEvent} />}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-            <TournementSummaryCard event={postEvent} />
-            <TournementSummaryCard event={nextEvent} />
+            {postEvent && <TournementSummaryCard event={postEvent} />}
+            {nextEvent && <TournementSummaryCard event={nextEvent} />}
           </div>
         </div>
       </div>
@@ -71,9 +72,7 @@ function Home() {
         <Card>
           <CardHeader>
             <CardTitle>Favorite Players</CardTitle>
-            <CardDescription>
-              {currentEvent ? currentEvent.label : postEvent.label}
-            </CardDescription>
+            <CardDescription>{eventLabel}</CardDescription>
           </CardHeader>
           <CardContent>
             <Table>

@@ -16,32 +16,32 @@
 
 - [x] app/routes/golf.tsx:26:46 — Type leaderboard competition status as `{ period: number; type: { detail: string; shortDetail?: string; description?: string; state?: string; name?: string; id?: string } }` from ESPN /golf/leaderboard API.
 
-- [ ] app/routes/index.tsx:52:41 — Resolve `Player[]` mismatch by exporting a single shared `Player` type for `getEventPlayers` and `assignRealRanks` based on ESPN leaderboard/players response (`id`, `displayName`, `countryFlag`, `stats`, `rank`).
-- [ ] app/routes/index.tsx:97:35 — Extend shared `Player` type with computed `isTied?: boolean`.
-- [ ] app/routes/index.tsx:98:44 — Extend shared `Player` type with computed `realRank?: number`.
-- [ ] app/routes/index.tsx:99:38 — Same `realRank` type addition.
-- [ ] app/routes/index.tsx:105:45 — Ensure shared `Player` type includes `countryFlag?: string` (present in ESPN leaderboard/players response).
+- [x] app/routes/index.tsx:52:41 — Resolve `Player[]` mismatch by exporting a single shared `Player` type for `getEventPlayers` and `assignRealRanks` based on ESPN leaderboard/players response (`id`, `displayName`, `countryFlag`, `stats`, `rank`).
+- [x] app/routes/index.tsx:97:35 — Extend shared `Player` type with computed `isTied?: boolean`.
+- [x] app/routes/index.tsx:98:44 — Extend shared `Player` type with computed `realRank?: number`.
+- [x] app/routes/index.tsx:99:38 — Same `realRank` type addition.
+- [x] app/routes/index.tsx:105:45 — Ensure shared `Player` type includes `countryFlag?: string` (present in ESPN leaderboard/players response).
 
-- [ ] app/utils/espn.tsx:221:36 — Type `player` in `leaderboard.map` from ESPN leaderboard/players response (minimal fields only).
-- [ ] app/utils/espn.tsx:223:31 — Type `stat` in `player.stats.find` as `Stat`.
-- [ ] app/utils/espn.tsx:285:5 — Allow `postEvent` to be `Event | undefined` (or provide fallback) in `TourDashboard`.
-- [ ] app/utils/espn.tsx:286:5 — Allow `currentEvent` to be `Event | undefined` (or provide fallback) in `TourDashboard`.
-- [ ] app/utils/espn.tsx:287:5 — Allow `nextEvent` to be `Event | undefined` (or provide fallback) in `TourDashboard`.
-- [ ] app/utils/espn.tsx:288:5 — Allow `players` to default to `[]` when no event is available.
+- [x] app/utils/espn.tsx:221:36 — Type `player` in `leaderboard.map` from ESPN leaderboard/players response (minimal fields only).
+- [x] app/utils/espn.tsx:223:31 — Type `stat` in `player.stats.find` as `Stat`.
+- [x] app/utils/espn.tsx:285:5 — Allow `postEvent` to be `Event | undefined` (or provide fallback) in `TourDashboard`.
+- [x] app/utils/espn.tsx:286:5 — Allow `currentEvent` to be `Event | undefined` (or provide fallback) in `TourDashboard`.
+- [x] app/utils/espn.tsx:287:5 — Allow `nextEvent` to be `Event | undefined` (or provide fallback) in `TourDashboard`.
+- [x] app/utils/espn.tsx:288:5 — Allow `players` to default to `[]` when no event is available.
 
-- [ ] app/utils/golf.tsx:27:11 — Add `score` to shared `Player` type (determine numeric vs string; ESPN stats provide `scoreToPar` as `displayValue` and optional `value`).
-- [ ] app/utils/golf.tsx:27:23 — Same `score` type fix for comparison.
-- [ ] app/utils/golf.tsx:28:16 — Add `order` (or map to ESPN `rank`) to shared `Player` type for tie-break sorting.
-- [ ] app/utils/golf.tsx:28:26 — Same `order` type fix for comparison.
-- [ ] app/utils/golf.tsx:30:14 — Same `score` type fix for comparison.
-- [ ] app/utils/golf.tsx:30:24 — Same `score` type fix for comparison.
-- [ ] app/utils/golf.tsx:36:20 — Add computed `realRank?: number` to shared `Player` type.
-- [ ] app/utils/golf.tsx:37:20 — Add computed `isTied?: boolean` to shared `Player` type.
-- [ ] app/utils/golf.tsx:44:16 — Same `score` type fix for min/max usage.
-- [ ] app/utils/golf.tsx:44:37 — Same `score` type fix for min/max usage.
-- [ ] app/utils/golf.tsx:46:14 — Same `realRank` type fix.
-- [ ] app/utils/golf.tsx:47:14 — Same `isTied` type fix.
-- [ ] app/utils/golf.tsx:50:23 — Same `isTied` type fix.
-- [ ] app/utils/golf.tsx:51:20 — Same `isTied` type fix.
-- [ ] app/utils/golf.tsx:57:14 — Same `realRank` type fix.
-- [ ] app/utils/golf.tsx:58:14 — Same `isTied` type fix.
+- [x] app/utils/golf.tsx:27:11 — Add `score` to shared `Player` type (determine numeric vs string; ESPN stats provide `scoreToPar` as `displayValue` and optional `value`).
+- [x] app/utils/golf.tsx:27:23 — Same `score` type fix for comparison.
+- [x] app/utils/golf.tsx:28:16 — Add `order` (or map to ESPN `rank`) to shared `Player` type for tie-break sorting.
+- [x] app/utils/golf.tsx:28:26 — Same `order` type fix for comparison.
+- [x] app/utils/golf.tsx:30:14 — Same `score` type fix for comparison.
+- [x] app/utils/golf.tsx:30:24 — Same `score` type fix for comparison.
+- [x] app/utils/golf.tsx:36:20 — Add computed `realRank?: number` to shared `Player` type.
+- [x] app/utils/golf.tsx:37:20 — Add computed `isTied?: boolean` to shared `Player` type.
+- [x] app/utils/golf.tsx:44:16 — Same `score` type fix for min/max usage.
+- [x] app/utils/golf.tsx:44:37 — Same `score` type fix for min/max usage.
+- [x] app/utils/golf.tsx:46:14 — Same `realRank` type fix.
+- [x] app/utils/golf.tsx:47:14 — Same `isTied` type fix.
+- [x] app/utils/golf.tsx:50:23 — Same `isTied` type fix.
+- [x] app/utils/golf.tsx:51:20 — Same `isTied` type fix.
+- [x] app/utils/golf.tsx:57:14 — Same `realRank` type fix.
+- [x] app/utils/golf.tsx:58:14 — Same `isTied` type fix.
