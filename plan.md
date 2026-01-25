@@ -14,7 +14,7 @@
 - [x] app/components/ui/tournementSummaryCard.tsx:63:31 — Add `Event.defendingChampion?: { displayName?: string }` from tourschedule API.
 - [x] app/components/ui/tournementSummaryCard.tsx:70:25 — Add `Event.purse?: { displayValue?: string }` from tourschedule API.
 
-- [ ] app/routes/golf.tsx:26:46 — Type leaderboard competition status as `{ period: number; type: { detail: string; shortDetail?: string; description?: string; state?: string; name?: string; id?: string } }` from ESPN /golf/leaderboard API.
+- [x] app/routes/golf.tsx:26:46 — Type leaderboard competition status as `{ period: number; type: { detail: string; shortDetail?: string; description?: string; state?: string; name?: string; id?: string } }` from ESPN /golf/leaderboard API.
 
 - [ ] app/routes/index.tsx:52:41 — Resolve `Player[]` mismatch by exporting a single shared `Player` type for `getEventPlayers` and `assignRealRanks` based on ESPN leaderboard/players response (`id`, `displayName`, `countryFlag`, `stats`, `rank`).
 - [ ] app/routes/index.tsx:97:35 — Extend shared `Player` type with computed `isTied?: boolean`.

@@ -26,8 +26,22 @@ export interface leaderboardEvent {
 
 export interface Competitions {
   id: string;
-  status: object;
+  status: CompetitionStatus;
   competitors: PlayerData[];
+}
+
+export interface CompetitionStatus {
+  period: number;
+  type: CompetitionStatusType;
+}
+
+export interface CompetitionStatusType {
+  id?: string;
+  name?: string;
+  state?: string;
+  description?: string;
+  detail: string;
+  shortDetail?: string;
 }
 
 export interface Event {
