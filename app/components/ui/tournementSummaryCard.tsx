@@ -35,20 +35,20 @@ type TcardProps = {
 // Easiest way to declare a Function Component; return type is inferred.
 export const TournementSummaryCard = ({ event }: TcardProps) => {
   return (
-    <Card key={event.id} className="mb-2">
+    <Card key={event.id}>
       <CardHeader>
         <CardTitle>{event.label}</CardTitle>
         <CardDescription>{event?.locations?.[0] || "N/A"}</CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="flex justify-between">
+        <div className="flex justify-between text-sm">
           <div>
             {event.status === "post" ? (
               <div className="space-y-1">
                 <div>Winner</div>
                 <div className="flex">
                   <div className="mr-1">
-                    <MaterialSymbolsTrophyOutline />
+                    <MaterialSymbolsTrophyOutline className="color-amber-400" />
                   </div>
                   <div>{event.winner?.competitors?.displayName || "N/A"}</div>
                 </div>
@@ -58,7 +58,7 @@ export const TournementSummaryCard = ({ event }: TcardProps) => {
                 <div>Defending Champ</div>
                 <div className="flex">
                   <div className="mr-1">
-                    <MaterialSymbolsTrophyOutline />
+                    <MaterialSymbolsTrophyOutline className="stroke-amber-400" />
                   </div>
                   <div>{event.defendingChampion?.displayName || "N/A"}</div>
                 </div>
@@ -68,9 +68,11 @@ export const TournementSummaryCard = ({ event }: TcardProps) => {
           <div className="space-y-1">
             <div>{event.detail}</div>
             <div>{event.purse?.displayValue}</div>
-            <div>
-              <Badge>{event.isMajor ? "Major" : "Non Major"}</Badge>
-            </div>
+            {event.isMajor && (
+              <div>
+                <Badge variant="secondary">{"Major"}</Badge>
+              </div>
+            )}
           </div>
         </div>
       </CardContent>

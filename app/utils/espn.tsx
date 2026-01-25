@@ -33,6 +33,11 @@ export interface Competitions {
 export interface Event {
   id: string;
   status: "pre" | "in" | "post";
+  fullStatus: {
+    type: {
+      name: string;
+    };
+  };
   label: string;
   locations: string[];
   winner: object;
@@ -175,7 +180,7 @@ export interface Link {
 
 export async function getLeaderboard(): Promise<leaderboardEvent> {
   const res = await fetch(
-    "https://site.api.espn.com/apis/site/v2/sports/golf/leaderboard"
+    "https://site.api.espn.com/apis/site/v2/sports/golf/leaderboard",
   );
 
   if (!res.ok) {
@@ -190,7 +195,7 @@ export async function getLeaderboard(): Promise<leaderboardEvent> {
 // gets pga golf on thur-sun
 export async function getScoreboard(): Promise<MatchData> {
   const res = await fetch(
-    "https://site.api.espn.com/apis/site/v2/sports/golf/pga/scoreboard"
+    "https://site.api.espn.com/apis/site/v2/sports/golf/pga/scoreboard",
   );
 
   if (!res.ok) {
@@ -204,7 +209,7 @@ export async function getScoreboard(): Promise<MatchData> {
 
 export async function getEventPlayers(id: string): Promise<[]> {
   const res = await fetch(
-    `https://site.web.api.espn.com/apis/site/v2/sports/golf/pga/leaderboard/players?region=us&lang=en&event=${id}`
+    `https://site.web.api.espn.com/apis/site/v2/sports/golf/pga/leaderboard/players?region=us&lang=en&event=${id}`,
   );
 
   if (!res.ok) {
@@ -224,7 +229,7 @@ export async function getEventPlayers(id: string): Promise<[]> {
 
 export async function getTourSchedule(): Promise<Event[]> {
   const res = await fetch(
-    "https://site.api.espn.com/apis/site/v2/sports/golf/pga/tourschedule?region=us&lang=en"
+    "https://site.api.espn.com/apis/site/v2/sports/golf/pga/tourschedule?region=us&lang=en",
   );
 
   if (!res.ok) {
@@ -240,12 +245,14 @@ export async function getTourSchedule(): Promise<Event[]> {
   }
   const { events } = foundSeason;
 
-  return events;
+  return events.filter(
+    (event) => event?.fullStatus?.type?.name !== "STATUS_CANCELED",
+  );
 }
 
 export async function getTourDashboard(): Promise<TourDashboard> {
   const res = await fetch(
-    "https://site.api.espn.com/apis/site/v2/sports/golf/pga/tourschedule?region=us&lang=en"
+    "https://site.api.espn.com/apis/site/v2/sports/golf/pga/tourschedule?region=us&lang=en",
   );
 
   if (!res.ok) {

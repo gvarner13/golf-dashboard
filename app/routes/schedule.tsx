@@ -20,7 +20,7 @@ function TourEventsComponent() {
   const filteredEvents = filterSchdule(status, events);
 
   return (
-    <div className="p-2 m-auto md:w-1/3">
+    <div className="mx-auto w-full max-w-7xl p-4">
       <div className="flex justify-center pb-4 pt-2">
         <Button className="mr-1" onClick={() => setStatus("post")}>
           Played
@@ -41,9 +41,11 @@ function TourEventsComponent() {
           </span>
         </Button>
       </div>
-      {filteredEvents.map((event: Event) => {
-        return <TournementSummaryCard event={event} key={event.id} />;
-      })}
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+        {filteredEvents.map((event: Event) => {
+          return <TournementSummaryCard event={event} key={event.id} />;
+        })}
+      </div>
     </div>
   );
 }

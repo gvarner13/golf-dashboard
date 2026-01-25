@@ -19,7 +19,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { favePlayersAtom } from "./golf";
+import { favePlayersAtom } from "@/utils/favePlayers";
 import { TournementSummaryCard } from "@/components/ui/tournementSummaryCard";
 import { Component } from "@/components/donutChart";
 
@@ -52,16 +52,19 @@ function Home() {
   const sortedPlayers = assignRealRanks(players || []);
   const favePlayersList = useAtomValue(favePlayersAtom);
   const favePlayers = sortedPlayers.filter((player) =>
-    favePlayersList.includes(player.id)
+    favePlayersList.includes(player.id),
   );
+  console.log(favePlayersList);
   const topPlayerStats = getHighestStats(favePlayers);
   return (
     <div className="md:flex min-h-screen pt-4">
       <div className="p-2 md:w-1/3 mx-auto">
-        {currentEvent && <TournementSummaryCard event={currentEvent} />}
-        <div className="flex justify-between gap-2">
-          <TournementSummaryCard event={postEvent} />
-          <TournementSummaryCard event={nextEvent} />
+        <div className="flex flex-col gap-2">
+          {currentEvent && <TournementSummaryCard event={currentEvent} />}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <TournementSummaryCard event={postEvent} />
+            <TournementSummaryCard event={nextEvent} />
+          </div>
         </div>
       </div>
       <div className="p-2 md:w-1/2 mx-auto">
@@ -109,7 +112,7 @@ function Home() {
                         <TableCell>
                           {
                             player.stats.find(
-                              (stat) => stat.name === "scoreToPar"
+                              (stat) => stat.name === "scoreToPar",
                             )?.displayValue
                           }
                         </TableCell>
@@ -144,106 +147,81 @@ function Home() {
             </Table>
           </CardContent>
         </Card>
-        <div className="md:flex">
-          <div className="pt-2 flex flex-wrap gap-2">
+        <div className="md:flex gap-2">
+          <div className="pt-2 w-full md:w-1/2 flex flex-wrap gap-2">
             {favePlayers.length > 0 && (
               <>
-                <Card key={topPlayerStats["driveDistAvg"].id}>
+                <Card>
                   <CardHeader>
-                    <CardTitle>
-                      {topPlayerStats["driveDistAvg"].displayName}
-                    </CardTitle>
+                    <CardTitle>Player Stats</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <div className="flex justify-between">
-                      <Avatar>
-                        <AvatarImage
-                          src={`https://a.espncdn.com/i/headshots/golf/players/full/${topPlayerStats["driveDistAvg"].id}.png`}
-                          className="object-cover"
-                        />
-                        <AvatarFallback>CN</AvatarFallback>
-                      </Avatar>
-                      <div className="ml-4">
-                        <div className="text-2xl">
-                          {topPlayerStats["driveDistAvg"].stat?.displayValue}{" "}
-                          Yds
-                        </div>
-                        <div>
-                          {topPlayerStats["driveDistAvg"].stat?.displayName}
+                    <div className="grid gap-3 sm:grid-cols-2">
+                      <div className="flex justify-between">
+                        <Avatar>
+                          <AvatarImage
+                            src={`https://a.espncdn.com/i/headshots/golf/players/full/${topPlayerStats["driveDistAvg"].id}.png`}
+                            className="object-cover"
+                          />
+                          <AvatarFallback>CN</AvatarFallback>
+                        </Avatar>
+                        <div className="ml-4">
+                          <div className="text-2xl">
+                            {topPlayerStats["driveDistAvg"].stat?.displayValue}{" "}
+                            Yds
+                          </div>
+                          <div>
+                            {topPlayerStats["driveDistAvg"].stat?.displayName}
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </CardContent>
-                </Card>
-                <Card key={topPlayerStats["gir"].id}>
-                  <CardHeader>
-                    <CardTitle>{topPlayerStats["gir"].displayName}</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="flex justify-between">
-                      <Avatar>
-                        <AvatarImage
-                          src={`https://a.espncdn.com/i/headshots/golf/players/full/${topPlayerStats["gir"].id}.png`}
-                          className="object-cover"
-                        />
-                        <AvatarFallback>CN</AvatarFallback>
-                      </Avatar>
-                      <div className="ml-4">
-                        <div className="text-2xl">
-                          {topPlayerStats["gir"].stat?.displayValue}%
-                        </div>
-                        <div>GIR</div>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-                <Card key={topPlayerStats["sandSaves"].id}>
-                  <CardHeader>
-                    <CardTitle>
-                      {topPlayerStats["sandSaves"].displayName}
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="flex justify-between">
-                      <Avatar>
-                        <AvatarImage
-                          src={`https://a.espncdn.com/i/headshots/golf/players/full/${topPlayerStats["sandSaves"].id}.png`}
-                          className="object-cover"
-                        />
-                        <AvatarFallback>CN</AvatarFallback>
-                      </Avatar>
-                      <div className="ml-4">
-                        <div className="text-2xl">
-                          {topPlayerStats["sandSaves"].stat?.displayValue}%
-                        </div>
-                        <div>
-                          {topPlayerStats["sandSaves"].stat?.displayName}
+                      <div className="flex justify-between">
+                        <Avatar>
+                          <AvatarImage
+                            src={`https://a.espncdn.com/i/headshots/golf/players/full/${topPlayerStats["gir"].id}.png`}
+                            className="object-cover"
+                          />
+                          <AvatarFallback>CN</AvatarFallback>
+                        </Avatar>
+                        <div className="ml-4">
+                          <div className="text-2xl">
+                            {topPlayerStats["gir"].stat?.displayValue}%
+                          </div>
+                          <div>GIR</div>
                         </div>
                       </div>
-                    </div>
-                  </CardContent>
-                </Card>
-                <Card key={topPlayerStats["puttsGirAvg"].id}>
-                  <CardHeader>
-                    <CardTitle>
-                      {topPlayerStats["puttsGirAvg"].displayName}
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="flex justify-between">
-                      <Avatar>
-                        <AvatarImage
-                          src={`https://a.espncdn.com/i/headshots/golf/players/full/${topPlayerStats["puttsGirAvg"].id}.png`}
-                          className="object-cover"
-                        />
-                        <AvatarFallback>CN</AvatarFallback>
-                      </Avatar>
-                      <div className="ml-4">
-                        <div className="text-2xl">
-                          {topPlayerStats["puttsGirAvg"].stat?.displayValue}
+                      <div className="flex justify-between">
+                        <Avatar>
+                          <AvatarImage
+                            src={`https://a.espncdn.com/i/headshots/golf/players/full/${topPlayerStats["sandSaves"].id}.png`}
+                            className="object-cover"
+                          />
+                          <AvatarFallback>CN</AvatarFallback>
+                        </Avatar>
+                        <div className="ml-4">
+                          <div className="text-2xl">
+                            {topPlayerStats["sandSaves"].stat?.displayValue}%
+                          </div>
+                          <div>
+                            {topPlayerStats["sandSaves"].stat?.displayName}
+                          </div>
                         </div>
-                        <div>
-                          {topPlayerStats["puttsGirAvg"].stat?.displayName}
+                      </div>
+                      <div className="flex justify-between">
+                        <Avatar>
+                          <AvatarImage
+                            src={`https://a.espncdn.com/i/headshots/golf/players/full/${topPlayerStats["puttsGirAvg"].id}.png`}
+                            className="object-cover"
+                          />
+                          <AvatarFallback>CN</AvatarFallback>
+                        </Avatar>
+                        <div className="ml-4">
+                          <div className="text-2xl">
+                            {topPlayerStats["puttsGirAvg"].stat?.displayValue}
+                          </div>
+                          <div>
+                            {topPlayerStats["puttsGirAvg"].stat?.displayName}
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -252,7 +230,7 @@ function Home() {
               </>
             )}
           </div>
-          <div className="w-full pt-2 mx-auto">
+          <div className="w-full md:w-1/2 pt-2 mx-auto">
             <Component
               playerData={players}
               currentEvent={currentEvent}
