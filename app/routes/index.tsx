@@ -54,7 +54,7 @@ function Home() {
   const favePlayers = sortedPlayers.filter((player) =>
     favePlayersList.includes(player.id),
   );
-  console.log(favePlayersList);
+
   const topPlayerStats = getHighestStats(favePlayers);
   return (
     <div className="md:flex min-h-screen pt-4">
