@@ -40,7 +40,7 @@ export const TournementSummaryCard = ({ event, className }: TcardProps) => {
     <Card
       key={event.id}
       className={cn(
-        "relative overflow-hidden border-0 bg-gradient-to-br from-emerald-950/70 via-slate-950/80 to-emerald-900/60 text-emerald-50 shadow-[0_18px_45px_-32px_rgba(15,118,110,0.6)] backdrop-blur",
+        "relative overflow-hidden border-0 bg-emerald-900/60 text-emerald-50 shadow-[0_18px_45px_-32px_rgba(15,118,110,0.6)] backdrop-blur",
         className,
       )}
     >

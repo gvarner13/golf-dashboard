@@ -67,11 +67,11 @@ function RootComponent() {
 
 function RootDocument({ children }: { children: React.ReactNode }) {
   return (
-    <html>
+    <html className="bg-emerald-950">
       <head>
         <Meta />
       </head>
-      <body>
+      <body className="bg-emerald-950 text-emerald-50">
         <div className="p-2 flex gap-2 text-lg">
           <Link
             to="/"
