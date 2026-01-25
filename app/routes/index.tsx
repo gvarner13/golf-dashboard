@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { getTourDashboard, EventData } from "../utils/espn";
+import { getTourDashboard } from "../utils/espn";
 import { useAtomValue } from "jotai";
 import { assignRealRanks, getHighestStats } from "../utils/golf";
 
@@ -59,187 +59,295 @@ function Home() {
 
   const topPlayerStats = getHighestStats(favePlayers);
   return (
-    <div className="md:flex min-h-screen pt-4">
-      <div className="p-2 md:w-1/3 mx-auto">
-        <div className="flex flex-col gap-2">
-          {currentEvent && <TournementSummaryCard event={currentEvent} />}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-            {postEvent && <TournementSummaryCard event={postEvent} />}
-            {nextEvent && <TournementSummaryCard event={nextEvent} />}
+    <div className="relative min-h-screen overflow-hidden bg-gradient-to-br from-emerald-950 via-slate-950 to-emerald-900 text-emerald-50">
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(16,185,129,0.25),_transparent_60%)]" />
+      <div className="pointer-events-none absolute inset-0 opacity-30 [background-image:linear-gradient(120deg,rgba(255,255,255,0.12)_1px,transparent_1px),linear-gradient(60deg,rgba(255,255,255,0.08)_1px,transparent_1px)] [background-size:22px_22px]" />
+      <div className="relative mx-auto flex w-full max-w-6xl flex-col gap-8 px-4 pb-12 pt-10 font-[var(--font-body)]">
+        <header className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+          <div>
+            <div className="text-xs uppercase tracking-[0.4em] text-emerald-200/70">
+              Tour telemetry
+            </div>
+            <div className="mt-3 text-3xl font-[var(--font-display)] tracking-tight text-white sm:text-4xl">
+              Grand Slam Control Room
+            </div>
+            <div className="mt-3 max-w-xl text-sm text-emerald-100/70">
+              Live signal around {eventLabel}. Track majors, favorites, and pace
+              of play in one nocturnal cockpit.
+            </div>
           </div>
-        </div>
-      </div>
-      <div className="p-2 md:w-1/2 mx-auto">
-        <div className="mb-4">
-          <GrandSlamTracker />
-        </div>
-        <Card>
-          <CardHeader>
-            <CardTitle>Favorite Players</CardTitle>
-            <CardDescription>{eventLabel}</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Pos</TableHead>
-                  <TableHead>Player</TableHead>
-                  <TableHead>Score</TableHead>
-                  <TableHead>Eagles</TableHead>
-                  <TableHead>Birdies</TableHead>
-                  <TableHead>Pars</TableHead>
-                  <TableHead>Bogeys</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {favePlayers.length > 0 &&
-                  favePlayers.map((player) => {
-                    return (
-                      <TableRow key={player.id}>
-                        <TableCell>
-                          {player.isTied
-                            ? "T" + player.realRank
-                            : player.realRank}
-                        </TableCell>
-                        <TableCell>
-                          <div className="flex">
-                            <div>
-                              <img
-                                src={player.countryFlag}
-                                className="w-6 h-6"
-                              ></img>
+          <div className="flex flex-wrap gap-3">
+            <div className="flex items-center gap-2 rounded-full border border-emerald-300/40 bg-emerald-400/10 px-4 py-2 text-xs uppercase tracking-[0.25em] text-emerald-100/80">
+              <MaterialSymbolsTrophyOutline className="h-4 w-4 text-emerald-200" />
+              {eventLabel}
+            </div>
+            <div className="rounded-full border border-emerald-300/20 bg-slate-950/40 px-4 py-2 text-xs uppercase tracking-[0.25em] text-emerald-200/70">
+              Favorites {favePlayers.length}
+            </div>
+          </div>
+        </header>
+
+        <div className="grid gap-6 lg:grid-cols-12">
+          <section className="space-y-6 lg:col-span-4">
+            <div className="rounded-2xl border border-emerald-300/10 bg-slate-950/40 p-4 shadow-[0_18px_45px_-32px_rgba(15,118,110,0.6)] backdrop-blur">
+              <div className="text-xs uppercase tracking-[0.3em] text-emerald-200/60">
+                Tournament Snapshot
+              </div>
+              <div className="mt-4 flex flex-col gap-3">
+                {currentEvent && (
+                  <TournementSummaryCard
+                    event={currentEvent}
+                    className="bg-slate-950/60"
+                  />
+                )}
+                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-1">
+                  {postEvent && (
+                    <TournementSummaryCard
+                      event={postEvent}
+                      className="bg-slate-950/60"
+                    />
+                  )}
+                  {nextEvent && (
+                    <TournementSummaryCard
+                      event={nextEvent}
+                      className="bg-slate-950/60"
+                    />
+                  )}
+                </div>
+              </div>
+            </div>
+            <div className="rounded-2xl border border-emerald-300/10 bg-slate-950/50 p-4 text-emerald-100/70 shadow-[0_18px_45px_-32px_rgba(15,118,110,0.6)] backdrop-blur">
+              <div className="text-xs uppercase tracking-[0.3em] text-emerald-200/60">
+                Roster Focus
+              </div>
+              <div className="mt-3 text-sm">
+                Tracking {favePlayers.length} favorites across the leaderboard.
+              </div>
+              <div className="mt-2 text-xs uppercase tracking-[0.3em] text-emerald-200/50">
+                Manual picks only
+              </div>
+            </div>
+          </section>
+
+          <section className="space-y-6 lg:col-span-8">
+            <GrandSlamTracker />
+            <Card className="relative overflow-hidden border-0 bg-slate-950/50 text-emerald-50 shadow-[0_18px_45px_-32px_rgba(15,118,110,0.6)] backdrop-blur">
+              <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(16,185,129,0.2),_transparent_55%)]" />
+              <div className="pointer-events-none absolute inset-0 opacity-20 [background-image:linear-gradient(120deg,rgba(255,255,255,0.12)_1px,transparent_1px),linear-gradient(60deg,rgba(255,255,255,0.08)_1px,transparent_1px)] [background-size:18px_18px]" />
+              <CardHeader className="relative">
+                <div className="text-xs uppercase tracking-[0.3em] text-emerald-200/60">
+                  Favorite Players
+                </div>
+                <CardTitle className="mt-2 text-2xl font-[var(--font-display)] tracking-tight text-white">
+                  Favorites Leaderboard
+                </CardTitle>
+                <CardDescription className="text-xs text-emerald-100/70">
+                  {eventLabel}
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="relative">
+                <Table className="text-emerald-100/80">
+                  <TableHeader className="[&_tr]:border-emerald-300/10">
+                    <TableRow className="border-emerald-300/10">
+                      <TableHead className="text-[10px] uppercase tracking-[0.3em] text-emerald-200/60">
+                        Pos
+                      </TableHead>
+                      <TableHead className="text-[10px] uppercase tracking-[0.3em] text-emerald-200/60">
+                        Player
+                      </TableHead>
+                      <TableHead className="text-[10px] uppercase tracking-[0.3em] text-emerald-200/60">
+                        Score
+                      </TableHead>
+                      <TableHead className="text-[10px] uppercase tracking-[0.3em] text-emerald-200/60">
+                        Eagles
+                      </TableHead>
+                      <TableHead className="text-[10px] uppercase tracking-[0.3em] text-emerald-200/60">
+                        Birdies
+                      </TableHead>
+                      <TableHead className="text-[10px] uppercase tracking-[0.3em] text-emerald-200/60">
+                        Pars
+                      </TableHead>
+                      <TableHead className="text-[10px] uppercase tracking-[0.3em] text-emerald-200/60">
+                        Bogeys
+                      </TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody className="[&_tr:last-child]:border-0">
+                    {favePlayers.length > 0 &&
+                      favePlayers.map((player) => {
+                        return (
+                          <TableRow
+                            key={player.id}
+                            className="border-emerald-300/10 hover:bg-emerald-500/10"
+                          >
+                            <TableCell className="text-sm text-emerald-50">
+                              {player.isTied
+                                ? "T" + player.realRank
+                                : player.realRank}
+                            </TableCell>
+                            <TableCell>
+                              <div className="flex items-center gap-2">
+                                <img
+                                  src={player.countryFlag}
+                                  className="h-6 w-6 rounded-full ring-1 ring-emerald-300/40"
+                                ></img>
+                                <div className="text-sm text-emerald-50">
+                                  {player.displayName}
+                                </div>
+                              </div>
+                            </TableCell>
+                            <TableCell className="text-sm text-emerald-50">
+                              {
+                                player.stats.find(
+                                  (stat) => stat.name === "scoreToPar",
+                                )?.displayValue
+                              }
+                            </TableCell>
+                            <TableCell className="text-sm text-emerald-50">
+                              {
+                                player.stats.find(
+                                  (stat) => stat.name === "eagles",
+                                )?.displayValue
+                              }
+                            </TableCell>
+                            <TableCell className="text-sm text-emerald-50">
+                              {
+                                player.stats.find(
+                                  (stat) => stat.name === "birdies",
+                                )?.displayValue
+                              }
+                            </TableCell>
+                            <TableCell className="text-sm text-emerald-50">
+                              {
+                                player.stats.find(
+                                  (stat) => stat.name === "pars",
+                                )?.displayValue
+                              }
+                            </TableCell>
+                            <TableCell className="text-sm text-emerald-50">
+                              {
+                                player.stats.find(
+                                  (stat) => stat.name === "bogeys",
+                                )?.displayValue
+                              }
+                            </TableCell>
+                          </TableRow>
+                        );
+                      })}
+                  </TableBody>
+                </Table>
+              </CardContent>
+            </Card>
+
+            <div className="grid gap-6 lg:grid-cols-2">
+              <div className="flex flex-wrap gap-4">
+                {favePlayers.length > 0 && (
+                  <Card className="relative w-full overflow-hidden border-0 bg-slate-950/50 text-emerald-50 shadow-[0_18px_45px_-32px_rgba(15,118,110,0.6)] backdrop-blur">
+                    <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(16,185,129,0.18),_transparent_55%)]" />
+                    <CardHeader className="relative">
+                      <div className="text-xs uppercase tracking-[0.3em] text-emerald-200/60">
+                        Player Stats
+                      </div>
+                      <CardTitle className="mt-2 text-xl font-[var(--font-display)] tracking-tight text-white">
+                        Best in the bag
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="relative">
+                      <div className="grid gap-4 sm:grid-cols-2">
+                        <div className="flex items-center justify-between gap-3">
+                          <Avatar className="h-12 w-12 ring-2 ring-emerald-300/50">
+                            <AvatarImage
+                              src={`https://a.espncdn.com/i/headshots/golf/players/full/${topPlayerStats["driveDistAvg"].id}.png`}
+                              className="object-cover"
+                            />
+                            <AvatarFallback>CN</AvatarFallback>
+                          </Avatar>
+                          <div>
+                            <div className="text-2xl text-emerald-50">
+                              {topPlayerStats["driveDistAvg"].stat
+                                ?.displayValue}{" "}
+                              Yds
                             </div>
-                            <div className="ml-1">{player.displayName}</div>
+                            <div className="text-xs uppercase tracking-[0.3em] text-emerald-200/60">
+                              {
+                                topPlayerStats["driveDistAvg"].stat
+                                  ?.displayName
+                              }
+                            </div>
                           </div>
-                        </TableCell>
-                        <TableCell>
-                          {
-                            player.stats.find(
-                              (stat) => stat.name === "scoreToPar",
-                            )?.displayValue
-                          }
-                        </TableCell>
-                        <TableCell>
-                          {
-                            player.stats.find((stat) => stat.name === "eagles")
-                              ?.displayValue
-                          }
-                        </TableCell>
-                        <TableCell>
-                          {
-                            player.stats.find((stat) => stat.name === "birdies")
-                              ?.displayValue
-                          }
-                        </TableCell>
-                        <TableCell>
-                          {
-                            player.stats.find((stat) => stat.name === "pars")
-                              ?.displayValue
-                          }
-                        </TableCell>
-                        <TableCell>
-                          {
-                            player.stats.find((stat) => stat.name === "bogeys")
-                              ?.displayValue
-                          }
-                        </TableCell>
-                      </TableRow>
-                    );
-                  })}
-              </TableBody>
-            </Table>
-          </CardContent>
-        </Card>
-        <div className="md:flex gap-2">
-          <div className="pt-2 w-full md:w-1/2 flex flex-wrap gap-2">
-            {favePlayers.length > 0 && (
-              <>
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Player Stats</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="grid gap-3 sm:grid-cols-2">
-                      <div className="flex justify-between">
-                        <Avatar>
-                          <AvatarImage
-                            src={`https://a.espncdn.com/i/headshots/golf/players/full/${topPlayerStats["driveDistAvg"].id}.png`}
-                            className="object-cover"
-                          />
-                          <AvatarFallback>CN</AvatarFallback>
-                        </Avatar>
-                        <div className="ml-4">
-                          <div className="text-2xl">
-                            {topPlayerStats["driveDistAvg"].stat?.displayValue}{" "}
-                            Yds
-                          </div>
+                        </div>
+                        <div className="flex items-center justify-between gap-3">
+                          <Avatar className="h-12 w-12 ring-2 ring-emerald-300/50">
+                            <AvatarImage
+                              src={`https://a.espncdn.com/i/headshots/golf/players/full/${topPlayerStats["gir"].id}.png`}
+                              className="object-cover"
+                            />
+                            <AvatarFallback>CN</AvatarFallback>
+                          </Avatar>
                           <div>
-                            {topPlayerStats["driveDistAvg"].stat?.displayName}
+                            <div className="text-2xl text-emerald-50">
+                              {topPlayerStats["gir"].stat?.displayValue}%
+                            </div>
+                            <div className="text-xs uppercase tracking-[0.3em] text-emerald-200/60">
+                              GIR
+                            </div>
                           </div>
                         </div>
-                      </div>
-                      <div className="flex justify-between">
-                        <Avatar>
-                          <AvatarImage
-                            src={`https://a.espncdn.com/i/headshots/golf/players/full/${topPlayerStats["gir"].id}.png`}
-                            className="object-cover"
-                          />
-                          <AvatarFallback>CN</AvatarFallback>
-                        </Avatar>
-                        <div className="ml-4">
-                          <div className="text-2xl">
-                            {topPlayerStats["gir"].stat?.displayValue}%
-                          </div>
-                          <div>GIR</div>
-                        </div>
-                      </div>
-                      <div className="flex justify-between">
-                        <Avatar>
-                          <AvatarImage
-                            src={`https://a.espncdn.com/i/headshots/golf/players/full/${topPlayerStats["sandSaves"].id}.png`}
-                            className="object-cover"
-                          />
-                          <AvatarFallback>CN</AvatarFallback>
-                        </Avatar>
-                        <div className="ml-4">
-                          <div className="text-2xl">
-                            {topPlayerStats["sandSaves"].stat?.displayValue}%
-                          </div>
+                        <div className="flex items-center justify-between gap-3">
+                          <Avatar className="h-12 w-12 ring-2 ring-emerald-300/50">
+                            <AvatarImage
+                              src={`https://a.espncdn.com/i/headshots/golf/players/full/${topPlayerStats["sandSaves"].id}.png`}
+                              className="object-cover"
+                            />
+                            <AvatarFallback>CN</AvatarFallback>
+                          </Avatar>
                           <div>
-                            {topPlayerStats["sandSaves"].stat?.displayName}
+                            <div className="text-2xl text-emerald-50">
+                              {topPlayerStats["sandSaves"].stat?.displayValue}%
+                            </div>
+                            <div className="text-xs uppercase tracking-[0.3em] text-emerald-200/60">
+                              {
+                                topPlayerStats["sandSaves"].stat?.displayName
+                              }
+                            </div>
                           </div>
                         </div>
-                      </div>
-                      <div className="flex justify-between">
-                        <Avatar>
-                          <AvatarImage
-                            src={`https://a.espncdn.com/i/headshots/golf/players/full/${topPlayerStats["puttsGirAvg"].id}.png`}
-                            className="object-cover"
-                          />
-                          <AvatarFallback>CN</AvatarFallback>
-                        </Avatar>
-                        <div className="ml-4">
-                          <div className="text-2xl">
-                            {topPlayerStats["puttsGirAvg"].stat?.displayValue}
-                          </div>
+                        <div className="flex items-center justify-between gap-3">
+                          <Avatar className="h-12 w-12 ring-2 ring-emerald-300/50">
+                            <AvatarImage
+                              src={`https://a.espncdn.com/i/headshots/golf/players/full/${topPlayerStats["puttsGirAvg"].id}.png`}
+                              className="object-cover"
+                            />
+                            <AvatarFallback>CN</AvatarFallback>
+                          </Avatar>
                           <div>
-                            {topPlayerStats["puttsGirAvg"].stat?.displayName}
+                            <div className="text-2xl text-emerald-50">
+                              {
+                                topPlayerStats["puttsGirAvg"].stat
+                                  ?.displayValue
+                              }
+                            </div>
+                            <div className="text-xs uppercase tracking-[0.3em] text-emerald-200/60">
+                              {
+                                topPlayerStats["puttsGirAvg"].stat?.displayName
+                              }
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              </>
-            )}
-          </div>
-          <div className="w-full md:w-1/2 pt-2 mx-auto">
-            <Component
-              playerData={players}
-              currentEvent={currentEvent}
-              postEvent={postEvent}
-            />
-          </div>
+                    </CardContent>
+                  </Card>
+                )}
+              </div>
+              <div className="w-full">
+                <Component
+                  playerData={players}
+                  currentEvent={currentEvent}
+                  postEvent={postEvent}
+                />
+              </div>
+            </div>
+          </section>
         </div>
       </div>
     </div>

@@ -9,6 +9,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { type Event } from "~/utils/espn";
 import type { SVGProps } from "react";
+import { cn } from "~/lib/utils";
 
 export function MaterialSymbolsTrophyOutline(props: SVGProps<SVGSVGElement>) {
   return (
@@ -30,52 +31,77 @@ export function MaterialSymbolsTrophyOutline(props: SVGProps<SVGSVGElement>) {
 // Declaring type of props - see "Typing Component Props" for more examples
 type TcardProps = {
   event: Event;
+  className?: string;
 }; /* use `interface` if exporting so that consumers can extend */
 
 // Easiest way to declare a Function Component; return type is inferred.
-export const TournementSummaryCard = ({ event }: TcardProps) => {
+export const TournementSummaryCard = ({ event, className }: TcardProps) => {
   return (
-    <Card key={event.id}>
-      <CardHeader>
-        <CardTitle>{event.label}</CardTitle>
-        <CardDescription>{event?.locations?.[0] || "N/A"}</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <div className="flex justify-between text-sm">
-          <div>
-            {event.status === "post" ? (
-              <div className="space-y-1">
-                <div>Winner</div>
-                <div className="flex">
-                  <div className="mr-1">
-                    <MaterialSymbolsTrophyOutline className="color-amber-400" />
+    <Card
+      key={event.id}
+      className={cn(
+        "relative overflow-hidden border-0 bg-gradient-to-br from-emerald-950/70 via-slate-950/80 to-emerald-900/60 text-emerald-50 shadow-[0_18px_45px_-32px_rgba(15,118,110,0.6)] backdrop-blur",
+        className,
+      )}
+    >
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(16,185,129,0.22),_transparent_55%)]" />
+      <div className="pointer-events-none absolute inset-0 opacity-25 [background-image:linear-gradient(120deg,rgba(255,255,255,0.12)_1px,transparent_1px),linear-gradient(60deg,rgba(255,255,255,0.08)_1px,transparent_1px)] [background-size:18px_18px]" />
+      <div className="relative">
+        <CardHeader className="pb-4">
+          <CardTitle className="text-lg font-semibold tracking-tight text-white">
+            {event.label}
+          </CardTitle>
+          <CardDescription className="text-xs text-emerald-100/70">
+            {event?.locations?.[0] || "N/A"}
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="pb-5">
+          <div className="flex justify-between gap-4 text-sm text-emerald-100/80">
+            <div>
+              {event.status === "post" ? (
+                <div className="space-y-1">
+                  <div className="text-xs uppercase tracking-[0.2em] text-emerald-200/70">
+                    Winner
                   </div>
-                  <div>{event.winner?.competitors?.displayName || "N/A"}</div>
-                </div>
-              </div>
-            ) : (
-              <div className="space-y-1">
-                <div>Defending Champ</div>
-                <div className="flex">
-                  <div className="mr-1">
-                    <MaterialSymbolsTrophyOutline className="stroke-amber-400" />
+                  <div className="flex items-center gap-2">
+                    <MaterialSymbolsTrophyOutline className="h-4 w-4 text-amber-200" />
+                    <div className="text-sm text-emerald-50">
+                      {event.winner?.competitors?.displayName || "N/A"}
+                    </div>
                   </div>
-                  <div>{event.defendingChampion?.displayName || "N/A"}</div>
                 </div>
+              ) : (
+                <div className="space-y-1">
+                  <div className="text-xs uppercase tracking-[0.2em] text-emerald-200/70">
+                    Defending Champ
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <MaterialSymbolsTrophyOutline className="h-4 w-4 text-amber-200" />
+                    <div className="text-sm text-emerald-50">
+                      {event.defendingChampion?.displayName || "N/A"}
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+            <div className="space-y-1 text-right">
+              <div className="text-xs uppercase tracking-[0.2em] text-emerald-200/60">
+                {event.detail}
               </div>
-            )}
-          </div>
-          <div className="space-y-1">
-            <div>{event.detail}</div>
-            <div>{event.purse?.displayValue}</div>
-            {event.isMajor && (
-              <div>
-                <Badge variant="secondary">{"Major"}</Badge>
+              <div className="text-sm text-emerald-100/80">
+                {event.purse?.displayValue}
               </div>
-            )}
+              {event.isMajor && (
+                <div>
+                  <Badge className="border border-emerald-300/40 bg-emerald-300/15 text-[10px] uppercase tracking-[0.3em] text-emerald-100">
+                    {"Major"}
+                  </Badge>
+                </div>
+              )}
+            </div>
           </div>
-        </div>
-      </CardContent>
+        </CardContent>
+      </div>
     </Card>
   );
 };
